@@ -6,7 +6,7 @@ import epllCaseSet from "./epllCaseSet";
 import cpllCaseSet from "./cpllCaseSet";
 // import ttllCaseSet from "./ttllCaseSet";
 // import tsleCaseSet from "./tsleCaseSet";
-import f2l1CaseSet from "./f2l1CaseSet";
+import f2l1CaseSet from "./f2lCaseSet";
 import _ from "lodash";
 import { isValidAlg } from "../utils/algTools";
 

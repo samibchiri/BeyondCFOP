@@ -1,6 +1,6 @@
 const arrowOllSet = [
   {
-    id: "f0016323-74ec-4258-a09b-c3399193a3e8",
+    id: "bd9ef080-643d-40c0-9378-ea2f935c0117",
     name: "OLL 21",
     ollNumber: 21,
     algNumber: 0,
@@ -8,7 +8,10 @@ const arrowOllSet = [
       "",
       "U2"
     ],
-    altAUF: [],
+    altAUF: [
+      "",
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -915,11 +918,14 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "7eb43396-0df7-45b2-9f24-a328b679943a",
+    id: "5a1d7051-1600-43cc-b708-07fe0a838e6b",
     name: "OLL 21",
     ollNumber: 21,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      "",
+      "U2"
+    ],
     altAUF: [
       "",
       "U2"
@@ -1811,7 +1817,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "749abee9-4c78-44bf-812c-8318defba84b",
+    id: "e82292a7-af00-4aa0-819d-9eaf8d653a5d",
     name: "OLL 22",
     ollNumber: 22,
     algNumber: 0,
@@ -2725,14 +2731,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "4c2900ad-eb2b-4ebd-a81a-941ae59814cf",
+    id: "3ad3014d-5666-4e51-8841-6c4ec8616d97",
     name: "OLL 23",
     ollNumber: 23,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -3359,11 +3367,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "16671a9c-e215-4860-9e1c-dee5e1e73fe0",
+    id: "dd13e6d3-b88b-4362-a302-2d59a788360c",
     name: "OLL 23",
     ollNumber: 23,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -4254,14 +4264,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "d6b29e72-5d10-4b8c-bee9-708a5be3c8ac",
+    id: "488cb67e-3307-4eaf-977a-0b5bc7317e7e",
     name: "OLL 24",
     ollNumber: 24,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -4944,11 +4956,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "a2986506-2a8e-43d2-b57a-fa44dccc2940",
+    id: "81ea03ba-e73c-47f4-913e-d1b1a607920f",
     name: "OLL 24",
     ollNumber: 24,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -5727,14 +5741,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "2dcd6bde-2780-4026-b550-db07c7d52dfd",
+    id: "a66764d3-8817-46e8-8e0c-6fa3d10d8504",
     name: "OLL 25",
     ollNumber: 25,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -6585,11 +6601,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "434f4bc5-4d71-42db-baf8-930342db2622",
+    id: "bdbd2ce7-858f-4fec-ae7e-fe8d36d62def",
     name: "OLL 25",
     ollNumber: 25,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -7424,14 +7442,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "0ea40094-a70a-40f6-aaa4-16b9bf553667",
+    id: "349641c3-6a0c-4b08-b294-377e88fdba80",
     name: "OLL 26",
     ollNumber: 26,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -8058,11 +8078,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "deb2dee9-62c4-4e3f-a93c-efc5b7dcd4ae",
+    id: "1bedf205-dd4e-4aea-a1cb-3a478bdb55d3",
     name: "OLL 26",
     ollNumber: 26,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -8673,14 +8695,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "fe73a002-e03d-4c07-9813-61e10c1bb62e",
+    id: "e502ea31-d530-49ad-8841-c27d9750ed94",
     name: "OLL 27",
     ollNumber: 27,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U"
+    ],
     barMovements: [
       [
         "Full"
@@ -9307,11 +9331,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "a9fa7f1d-dd9c-4a62-971c-5097167ca67d",
+    id: "7209c8dc-e1f7-4e6e-b9cb-f094bc3058c9",
     name: "OLL 27",
     ollNumber: 27,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U'"
     ],
@@ -9978,7 +10004,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "1e2d7ee3-6b18-469b-a5e6-3a87dcdc2914",
+    id: "f4887f9a-c9a5-4b32-a1bd-f1aac75bb83e",
     name: "OLL 1",
     ollNumber: 1,
     algNumber: 0,
@@ -10949,14 +10975,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "2b712fcc-5c18-486b-8790-e9600ba66952",
+    id: "47f25cd4-8136-4999-a195-278d02f46b6b",
     name: "OLL 2",
     ollNumber: 2,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -11863,11 +11891,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c6db15fb-0041-41b3-adee-15cbcbb445f6",
+    id: "973eb4a0-13b8-4241-b41e-ab1dc20937a9",
     name: "OLL 2",
     ollNumber: 2,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -13598,14 +13628,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "1cd4634c-5a91-4695-bd67-568e1c26c747",
+    id: "f62c1bd0-c815-49e7-8a98-d8951ea42c09",
     name: "OLL 3",
     ollNumber: 3,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -14288,11 +14320,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "7ca4b8a7-2911-4128-ae1b-f959d3d180cb",
+    id: "89ddb106-573f-47bf-9893-5fee2b9ff377",
     name: "OLL 3",
     ollNumber: 3,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -14903,14 +14937,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "01218bf2-6b58-4b3d-a838-1e5428f6720c",
+    id: "d5a9ba33-e1fe-4344-abec-c3a0b888f922",
     name: "OLL 4",
     ollNumber: 4,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -15537,11 +15573,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "bbb5c8e3-6b6c-45bb-bcd2-a2e63c8a5308",
+    id: "ef574797-2cd9-4d01-be5d-d4bb75fa6de8",
     name: "OLL 4",
     ollNumber: 4,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -16432,14 +16470,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "4d14817c-3f3d-4f1f-be6a-370ae1929f93",
+    id: "abda63ce-352d-4a04-bf32-eee02378f35e",
     name: "OLL 5",
     ollNumber: 5,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -17122,11 +17162,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "e99ff16a-6882-465c-b165-fcec2c7ec764",
+    id: "85341284-54db-4292-beff-06afd2ffa887",
     name: "OLL 5",
     ollNumber: 5,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -17905,7 +17947,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "75ad6d48-6c2d-4ca9-a79b-fdc2379c695d",
+    id: "28195b2f-2632-47e6-824b-574fc70ef17a",
     name: "OLL 6",
     ollNumber: 6,
     algNumber: 0,
@@ -18539,7 +18581,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "a95d0e6e-01f7-4cdb-84bf-1b6b35caf944",
+    id: "9ed9564c-8e44-49d7-9acc-a90c0ce1c615",
     name: "OLL 7",
     ollNumber: 7,
     algNumber: 0,
@@ -19173,14 +19215,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "af33db8a-37c9-432b-839e-512574317e2b",
+    id: "e1c48182-f1c9-44d8-9582-587237204c26",
     name: "OLL 8",
     ollNumber: 8,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -19807,11 +19851,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "f989f134-0854-4cce-b146-e3debec97ef4",
+    id: "786f0fdb-7e58-4e6d-8938-be457a0371be",
     name: "OLL 8",
     ollNumber: 8,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -20702,7 +20748,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "b6c970f7-04ec-4dfd-9f80-3324a608c123",
+    id: "7450b653-1f0d-41f6-a831-1edd54822252",
     name: "OLL 9",
     ollNumber: 9,
     algNumber: 0,
@@ -21672,14 +21718,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "10f1dd87-60ea-49d6-a8d4-4100d1669037",
+    id: "225e469e-3079-46cc-8f44-8079c44a90e0",
     name: "OLL 10",
     ollNumber: 10,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -22362,11 +22410,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "9b6ddc8b-5ebf-494d-8374-9e1615e39519",
+    id: "08569805-e400-4d2f-970f-793b9d510bf9",
     name: "OLL 10",
     ollNumber: 10,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -22977,14 +23027,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "e6c99704-ab63-4cb6-b6a0-2de8e6cd8056",
+    id: "b1b9d237-8637-4ce6-a127-613f3fd522fc",
     name: "OLL 11",
     ollNumber: 11,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -23667,11 +23719,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "cb1e7e48-fe11-4569-a6f2-05fa6c46a5ac",
+    id: "99a8a9ec-02dd-407f-a2eb-b80072052b7c",
     name: "OLL 11",
     ollNumber: 11,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -24282,7 +24336,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "760f54f5-7173-4a2d-a06c-1f17dbd8e3aa",
+    id: "78b82158-352e-4965-b892-71b63472c29a",
     name: "OLL 12",
     ollNumber: 12,
     algNumber: 0,
@@ -24916,14 +24970,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "aa4655bf-c1a2-4688-9701-adf7d78787cd",
+    id: "4be2ef46-84c5-4a0d-9b80-99bdbb5efd38",
     name: "OLL 13",
     ollNumber: 13,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -25550,11 +25606,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "042abde6-74c8-4fc6-9531-7af83f0e72fe",
+    id: "53eb00ad-b89d-4ec4-bf04-594a3580c773",
     name: "OLL 13",
     ollNumber: 13,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -26165,14 +26223,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "45263794-640d-40b1-87cd-114054a0fa17",
+    id: "934df5e9-85e2-472c-a40e-3fe9e6bb3177",
     name: "OLL 14",
     ollNumber: 14,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -27079,11 +27139,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "6b4d8434-bef9-4f44-920a-f3490eb5a043",
+    id: "7875663b-9e19-436a-9b7f-c71d86754eb0",
     name: "OLL 14",
     ollNumber: 14,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -28030,14 +28092,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "faba1f6c-6e3b-4344-aa82-7244ee7adf33",
+    id: "c30d4a7e-12a9-4625-84c7-977344f4d6aa",
     name: "OLL 15",
     ollNumber: 15,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -28720,11 +28784,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "446e5619-b5a0-43d3-867e-a8f00e53fec4",
+    id: "04b1dbdf-83b6-44d1-8c05-ae8d050ec5c2",
     name: "OLL 15",
     ollNumber: 15,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -29503,7 +29569,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "b6c80fa5-1fe8-481d-ad0b-9b3ddc860c14",
+    id: "15c15bef-d21c-4f4d-8a0e-2dbb36b0a3ac",
     name: "OLL 16",
     ollNumber: 16,
     algNumber: 0,
@@ -30137,14 +30203,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "ca59c158-86f2-465a-85a1-44ba1e153d83",
+    id: "b9fb4442-830f-4ae0-b70f-7e4887814073",
     name: "OLL 17",
     ollNumber: 17,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -30995,11 +31063,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "31aa3f50-207a-4cd0-a69b-0395ea3ec85d",
+    id: "819d2edd-cd9a-41db-8bc0-4c64ab51ec2c",
     name: "OLL 17",
     ollNumber: 17,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -31834,14 +31904,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "0cbc7a07-3150-4b89-98e4-666a9f7b6147",
+    id: "3eda5a67-e7c5-4b81-b3a5-ad7412df3427",
     name: "OLL 18",
     ollNumber: 18,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U"
+    ],
     barMovements: [
       [
         "Full"
@@ -32468,11 +32540,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "60961a33-c6b1-444b-8a87-fd78cbf5cdd2",
+    id: "d0055ab1-7f7d-457f-a082-2356baf25895",
     name: "OLL 18",
     ollNumber: 18,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U'"
     ],
@@ -33083,7 +33157,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "448b2a9f-aae4-4391-a912-f499838a677b",
+    id: "7866ba3c-8614-42ea-a5fc-a69964697d97",
     name: "OLL 19",
     ollNumber: 19,
     algNumber: 0,
@@ -33829,7 +33903,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "34154b05-7668-4d17-bd4b-9f1f07e4d7df",
+    id: "96282eef-94a2-438d-9d4e-276ec2ae5970",
     name: "OLL 20",
     ollNumber: 20,
     algNumber: 0,
@@ -33839,7 +33913,12 @@ const arrowOllSet = [
       "U",
       "U2"
     ],
-    altAUF: [],
+    altAUF: [
+      "",
+      "U",
+      "U'",
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -34466,11 +34545,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "dab93953-1b59-4341-b733-b94cdebd79ca",
+    id: "dbf3fd57-9fe9-4308-adcf-5040a0485a6a",
     name: "OLL 20",
     ollNumber: 20,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      "",
+      "U'",
+      "U",
+      "U2"
+    ],
     altAUF: [
       "",
       "U'",
@@ -35084,7 +35168,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "07e18e9e-7810-4078-943c-6ed47205bc36",
+    id: "cd0add2b-5aa3-40c4-8ce4-0ad355534e28",
     name: "OLL 28",
     ollNumber: 28,
     algNumber: 0,
@@ -35718,14 +35802,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "0c1bdccc-6dae-48b3-b7f9-b14f5b3dc3a1",
+    id: "ee3f26ad-598e-4fb8-844e-ec59b061a969",
     name: "OLL 29",
     ollNumber: 29,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -36464,11 +36550,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "20fc64c4-7dfc-45d4-a1e2-2c79098f55ae",
+    id: "00964722-2a0e-4ea9-a344-e4919de70fb4",
     name: "OLL 29",
     ollNumber: 29,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -37079,14 +37167,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "9b391334-abf6-4f00-916c-40918889d456",
+    id: "a3a9ebc4-c08b-475b-9361-38bbcf77aaba",
     name: "OLL 30",
     ollNumber: 30,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -37881,11 +37971,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "bd590dfc-c435-4a33-9f85-3e43070e0bb5",
+    id: "324ce666-e2ca-4b2b-9c58-13218e5dae77",
     name: "OLL 30",
     ollNumber: 30,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -38720,7 +38812,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c280d398-1cc5-4c7d-8331-b29c80fdd603",
+    id: "c6f07c37-2ef4-4c71-838a-bfd553662ba9",
     name: "OLL 31",
     ollNumber: 31,
     algNumber: 0,
@@ -39410,14 +39502,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c7fb8f12-2c99-4294-b4de-66d1213513ca",
+    id: "bb8756b0-173e-41bb-be51-be228ac35763",
     name: "OLL 32",
     ollNumber: 32,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -40100,11 +40194,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "4d6dec0d-9ded-4ee3-b526-2ec701900680",
+    id: "1c0aeeb1-dfbf-4c04-8969-edaf8402bbd9",
     name: "OLL 32",
     ollNumber: 32,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -40827,7 +40923,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "56f93692-81f1-4e1e-9029-fe9137e2862c",
+    id: "961fddd6-5d3a-45e4-ae04-8cd2f05beb04",
     name: "OLL 33",
     ollNumber: 33,
     algNumber: 0,
@@ -41517,14 +41613,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c11a8802-100e-446f-a232-fee09ab595e1",
+    id: "7f9d0666-be89-4504-a00f-d3631c37d31e",
     name: "OLL 34",
     ollNumber: 34,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -42319,11 +42417,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c00176ab-98f3-48e2-940e-d31592122451",
+    id: "f5390831-c7f2-4810-a2ce-aa2c1f0ace79",
     name: "OLL 34",
     ollNumber: 34,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -43102,7 +43202,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "0aaf3225-2b3d-4014-ba72-d42182590966",
+    id: "a7d096cc-ed6a-4c69-922e-dcad1bb04a2e",
     name: "OLL 35",
     ollNumber: 35,
     algNumber: 0,
@@ -43960,14 +44060,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "0f684617-9285-4edb-aa08-d0e86515ae22",
+    id: "55790cd3-f348-45bf-878f-9286bb95ab45",
     name: "OLL 36",
     ollNumber: 36,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -44818,11 +44920,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "cd8751cb-94f1-47bb-a3ce-b06cff830e3c",
+    id: "805e3edc-eacb-439b-b26b-1d453437bbc9",
     name: "OLL 36",
     ollNumber: 36,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -45657,14 +45761,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "67cd9715-7ff6-478f-8c89-f53054c87fa4",
+    id: "f8606e79-3b78-4d8a-96f3-41fbe0d078ad",
     name: "OLL 37",
     ollNumber: 37,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -46515,11 +46621,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "2a03b91f-1856-4dd3-8f90-c6b8ebc6014b",
+    id: "762f533b-a0dc-4813-9756-d6490ead8e3b",
     name: "OLL 37",
     ollNumber: 37,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -47354,7 +47462,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "2f36336b-02ea-4ecd-ad4c-66382bef5a10",
+    id: "e1244dbd-d427-44e5-9730-016723e87fe9",
     name: "OLL 38",
     ollNumber: 38,
     algNumber: 0,
@@ -47988,14 +48096,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "3f66a9bc-31f0-4f94-8f2d-9e04f244f100",
+    id: "54863583-fd2a-459f-824a-ef283c19d3f1",
     name: "OLL 39",
     ollNumber: 39,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -48622,11 +48732,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "06534dcf-7f41-4b85-979b-da7dc608c087",
+    id: "6b0a72ea-fff3-4ec6-8048-92e84e23765c",
     name: "OLL 39",
     ollNumber: 39,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -49237,7 +49349,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "fc16f5ce-6f6d-4059-9801-88f854eef56a",
+    id: "d6c2a95f-5145-4a57-9a64-cd5e4fa4a0d7",
     name: "OLL 40",
     ollNumber: 40,
     algNumber: 0,
@@ -50095,7 +50207,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "ac19fdb9-be9e-4c10-987f-2bed9daea2b3",
+    id: "b5719e13-b258-4e6d-85bd-07c128eb75df",
     name: "OLL 41",
     ollNumber: 41,
     algNumber: 0,
@@ -51009,7 +51121,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "9057bead-6be7-4c48-9d80-0e2b840e02fc",
+    id: "1a877374-001b-4b4a-be35-4499b8c491bd",
     name: "OLL 42",
     ollNumber: 42,
     algNumber: 0,
@@ -51643,14 +51755,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "1c01f8a1-05a9-45a8-b60c-396f0c7205b4",
+    id: "929e8ac2-ad39-4772-86be-94332e0f7d86",
     name: "OLL 43",
     ollNumber: 43,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -52277,11 +52391,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "f420659d-d860-4e11-8cc1-27338e886d21",
+    id: "d2c80d03-adf9-4d76-8f18-79201ad44596",
     name: "OLL 43",
     ollNumber: 43,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -52892,14 +53008,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "7274f051-cd68-4a27-88f6-c376468e8323",
+    id: "67c95a07-bc0a-412d-83b2-f39538e7c197",
     name: "OLL 44",
     ollNumber: 44,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -53526,11 +53644,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "a3b1eb0f-576f-4e72-bf53-07e325a5bec7",
+    id: "6592e738-284d-4b16-a9e7-da4f2ecafabc",
     name: "OLL 44",
     ollNumber: 44,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -54141,7 +54261,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "093c5503-4a82-48a1-8356-79e400793b0c",
+    id: "0cdc49d0-31b2-4a37-b201-8f96b52b61b5",
     name: "OLL 45",
     ollNumber: 45,
     algNumber: 0,
@@ -54775,7 +54895,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "acb51bb6-298d-4f31-a512-21076aae171f",
+    id: "12da071d-c488-491e-a39e-eb71b20b8e34",
     name: "OLL 46",
     ollNumber: 46,
     algNumber: 0,
@@ -55409,14 +55529,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "e2b908e5-9b34-4c93-bdbb-e02efa114ddf",
+    id: "6735d8b6-e0ad-45cd-9e78-dd98d2151ada",
     name: "OLL 47",
     ollNumber: 47,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -56659,11 +56781,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "e4282a96-6313-4193-9a1d-ee3266765330",
+    id: "4945fd36-349f-4412-8b40-0b26df9d5e4a",
     name: "OLL 47",
     ollNumber: 47,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -57890,7 +58014,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "2378f2e1-f8f9-4f70-8d96-2f2b9b2ae170",
+    id: "c1aee989-11ff-4529-95dd-bc3be76c452b",
     name: "OLL 48",
     ollNumber: 48,
     algNumber: 0,
@@ -58804,7 +58928,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "24c036b7-94c9-457a-932b-7d840b0225d7",
+    id: "d6f6f4e3-4b8e-4931-af91-f9c70588e985",
     name: "OLL 49",
     ollNumber: 49,
     algNumber: 0,
@@ -59718,7 +59842,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "8ccc7989-63a1-44cc-a7d6-bfc2287dccdc",
+    id: "2f1b7f49-1b68-4fb4-97fb-a34080e17412",
     name: "OLL 50",
     ollNumber: 50,
     algNumber: 0,
@@ -60632,14 +60756,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "51431949-698d-42b9-beaa-cdfad988847c",
+    id: "89f40d33-b3d2-47d9-b6d5-e644b5a80e3d",
     name: "OLL 51",
     ollNumber: 51,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -61546,11 +61672,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "1f9476cd-e877-4bc6-906b-71c1261f5b63",
+    id: "b07bba85-2b81-4c21-8f29-c310a42f4c57",
     name: "OLL 51",
     ollNumber: 51,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -62777,14 +62905,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "1ddc03f7-a3bc-4c2b-a032-0b7e15528f2e",
+    id: "61acfc4a-a3ee-4ec0-a83d-ceca17004cea",
     name: "OLL 52",
     ollNumber: 52,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      ""
+    ],
     barMovements: [
       [
         "Full"
@@ -64027,11 +64157,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "a870f48d-06f1-4b97-a4b3-3273a8e6e4f3",
+    id: "17a28c7a-d319-4a00-8bc5-7a2587077956",
     name: "OLL 52",
     ollNumber: 52,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       ""
     ],
@@ -65258,14 +65390,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "b2ff6936-55fc-4972-a170-199f098b8646",
+    id: "b3798a7c-9e09-4a4b-8eba-ecab4405f12a",
     name: "OLL 53",
     ollNumber: 53,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -66172,11 +66306,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "fcdae4dc-b6ff-47ab-b7eb-044626b17689",
+    id: "28d4ec5f-1578-40c1-8767-4e56ec6284a0",
     name: "OLL 53",
     ollNumber: 53,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U2"
     ],
@@ -67067,14 +67203,16 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "c29970ef-9e76-4bd0-8e58-21ce4a61f93e",
+    id: "869e74b9-17bb-4abd-a59b-eedbe829c0a5",
     name: "OLL 54",
     ollNumber: 54,
     algNumber: 0,
     differentAUF: [
       ""
     ],
-    altAUF: [],
+    altAUF: [
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -67981,11 +68119,13 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "59ed31d5-d9f7-4027-9a3e-2fdc17917c08",
+    id: "3a821911-3bc8-4487-9166-8863c752b7c8",
     name: "OLL 54",
     ollNumber: 54,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      ""
+    ],
     altAUF: [
       "U"
     ],
@@ -68876,7 +69016,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "126a597f-96a9-4d86-8836-8b5e1494e59c",
+    id: "51c1d76d-de31-4e2a-9c78-69f3e411e23b",
     name: "OLL 55",
     ollNumber: 55,
     algNumber: 0,
@@ -68884,7 +69024,10 @@ const arrowOllSet = [
       "",
       "U2"
     ],
-    altAUF: [],
+    altAUF: [
+      "U",
+      "U'"
+    ],
     barMovements: [
       [
         "Full"
@@ -69847,11 +69990,14 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "06c2dd5f-93e7-43f1-acd7-47298f49da55",
+    id: "b525346d-770d-44ee-b260-c70836b7b2e3",
     name: "OLL 55",
     ollNumber: 55,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      "",
+      "U2"
+    ],
     altAUF: [
       "U'",
       "U"
@@ -70743,7 +70889,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "511e3e2e-d6f5-4823-88f7-9ab1438048e6",
+    id: "43416e3c-2653-4fbf-a789-c526f9fbd114",
     name: "OLL 56",
     ollNumber: 56,
     algNumber: 0,
@@ -70751,7 +70897,10 @@ const arrowOllSet = [
       "",
       "U2"
     ],
-    altAUF: [],
+    altAUF: [
+      "",
+      "U2"
+    ],
     barMovements: [
       [
         "Full"
@@ -71658,11 +71807,14 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "f91e88aa-e70e-4b71-99f2-6150918ee74c",
+    id: "a073b7ae-81c5-42ad-9c75-c2fec2e11acd",
     name: "OLL 56",
     ollNumber: 56,
     algNumber: 1,
-    differentAUF: [],
+    differentAUF: [
+      "",
+      "U2"
+    ],
     altAUF: [
       "",
       "U2"
@@ -72554,7 +72706,7 @@ const arrowOllSet = [
     ]
   },
   {
-    id: "890ee72f-1db8-45b9-9719-08d69897b681",
+    id: "d372c58b-efef-4f3a-9547-5bd81a2e3f0e",
     name: "OLL 57",
     ollNumber: 57,
     algNumber: 0,

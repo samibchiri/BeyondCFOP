@@ -10,7 +10,7 @@ import CornerPermutationPage from '../CpPage/CornerPermutationPage.jsx';
 import cpllCaseSet from "../../data/cpllCaseSet.js";
 import eollCaseSet from "../../data/eollCaseSet.js";
 import epllCaseSet from "../../data/epllCaseSet.js";
-import f2lCaseSet from "../../data/f2l1CaseSet.js";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
 import ocllCaseSet from "../../data/ocllCaseSet.js";
 import ollCaseSet from "../../data/ollCaseSet.js";
 import pllCaseSet from "../../data/pllCaseSet.js";
@@ -28,12 +28,14 @@ import '../../styling/index.css';
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from '../../data/NewGeneratedData/db.js';
 
-import { useOll } from "../../context/OllContext.jsx";
+// import { useOll } from "../../context/OllContext.jsx";
 
-import {sortOlls} from "../../context/OllContext.jsx"
+// import {sortOlls} from "../../context/OllContext.jsx"
 
-import { usePll } from "../../context/PllContext.jsx";
-import {sortPlls} from "../../context/PllContext.jsx"
+// import { usePll } from "../../context/PllContext.jsx";
+// import {sortPlls} from "../../context/PllContext.jsx"
+
+import { useAlgs } from "../../context/AlgContext.jsx";
 
 import { ThemeContext } from '../../context/DarkThemeContext.jsx';
 import ShowAlgCard from "../TrainSelectPage/cardPopUp.jsx";
@@ -93,22 +95,39 @@ export default function AlgDisplayPage(
 
     }
 
-    const dbOllCaseSet = useLiveQuery(()=>{
+    // const dbOllCaseSet = useLiveQuery(()=>{
         
-          return db.olls.where("algNumber").equals(0).toArray().then(arr => arr.sort(sortOlls));;
-        },[]
-      ) ?? [];
+    //       return db.olls.where("algNumber").equals(0).toArray().then(arr => arr.sort(sortOlls));;
+    //     },[]
+    //   ) ?? [];
     
-      const dbPllCaseSet = useLiveQuery(()=>{
+    //   const dbPllCaseSet = useLiveQuery(()=>{
         
-          return db.plls.where("algNumber").equals(0).toArray().then(arr => arr.sort(sortPlls));;
-        },[]
-      ) ?? [];;
+    //       return db.plls.where("algNumber").equals(0).toArray().then(arr => arr.sort(sortPlls));;
+    //     },[]
+    //   ) ?? [];;
     
-      const { allOlls, getOllsByGroup, addOllAlg, createOllEmptySlot, swapOllsAlgnumber } = useOll();
-      const { allPlls, getPllsByGroup, addPllAlg, createPllEmptySlot, swapPllsAlgnumber } = usePll();
+    //   const { allOlls, getOllsByGroup, addOllAlg, createOllEmptySlot, swapOllsAlgnumber } = useOll();
+    //   const { allPlls, getPllsByGroup, addPllAlg, createPllEmptySlot, swapPllsAlgnumber } = usePll();
       
-      console.log("UseCont",allOlls,getOllsByGroup("Dot"))
+    const {
+        data,
+        getAlgsByGroup,
+        addAlg,
+        createEmptySlot,
+        swapAlgNumbers
+    } = useAlgs();
+
+    const type = algCasesSet?.details?.id;
+
+    const cases = {
+        oll: data.oll.all,
+        pll: data.pll.all,
+        f2l: data.f2l.all,
+    }[type] ?? algCasesSet?.cases ?? [];
+    //   console.log("UseCont",allOlls,getOllsByGroup("Dot"))
+      
+    console.log("CasesType",cases,type)
 //    const [selectedCaseSet, setSelectedCaseSet] = useState(null)
 
     let AllCases = [cpllCaseSet, eollCaseSet, epllCaseSet, f2lCaseSet, ocllCaseSet, ollCaseSet, pllCaseSet]
@@ -147,20 +166,25 @@ export default function AlgDisplayPage(
         let ChosenGroupAlgs = []
         //console.log("ClickedSelG",dbOllCaseSet,group,algCasesSet,selectedAlg,ChosenGroupAlgs)
         
-        if(algCasesSet.details.id!="oll"){
-            algCasesSet.cases.forEach((alg) => {
-                if (alg.group == group) {
-                    ChosenGroupAlgs.push(alg)
-                }
-            })
-        }
-        else{
-            dbOllCaseSet.forEach((alg)=>{
-                if (alg.group == group) {
-                    ChosenGroupAlgs.push(alg)
-                }
-            })
-        }
+        // if(algCasesSet.details.id!="oll"){
+        //     algCasesSet.cases.forEach((alg) => {
+        //         if (alg.group == group) {
+        //             ChosenGroupAlgs.push(alg)
+        //         }
+        //     })
+        // }
+        // else{
+        //     dbOllCaseSet.forEach((alg)=>{
+        //         if (alg.group == group) {
+        //             ChosenGroupAlgs.push(alg)
+        //         }
+        //     })
+        // }
+        cases.forEach((alg)=>{
+            if(alg.group ==group){
+                ChosenGroupAlgs.push(alg)
+            }
+        })
         const GroupAlgsInSelected = ChosenGroupAlgs.every((alg) => selectedAlg.includes(alg))
 
         return GroupAlgsInSelected
@@ -170,28 +194,38 @@ export default function AlgDisplayPage(
 
         let ChosenGroupAlgs = []
 
-        if(algCasesSet.details.id!="oll" && algCasesSet.details.id!="pll"){
-            algCasesSet.cases.forEach((alg) => {
-            if (alg.group == group) {
+        cases.forEach((alg)=>{
+            if(alg.group== group){
                 ChosenGroupAlgs.push(alg)
             }
         })
-        }
-        else if(algCasesSet.details.id=="oll"){
-            dbOllCaseSet.forEach((alg) => {
-            if (alg.group == group) {
-                ChosenGroupAlgs.push(alg)
-            }
-        })
-        }
-        else{
-            dbPllCaseSet.forEach((alg) => {
-            if (alg.group == group) {
-                ChosenGroupAlgs.push(alg)
-            }
-        })
-        }
+        // if(algCasesSet.details.id!="oll" && algCasesSet.details.id!="pll"){
+        //     algCasesSet.cases.forEach((alg) => {
+        //         if (alg.group == group) {
+        //             ChosenGroupAlgs.push(alg)
+        //         }
+        //     })
+        // }
+        // else{
+
+        // }
+        // }
+        // else if(algCasesSet.details.id=="oll"){
+        //     dbOllCaseSet.forEach((alg) => {
+        //     if (alg.group == group) {
+        //         ChosenGroupAlgs.push(alg)
+        //     }
+        // })
+        // }
+        // else{
+        //     dbPllCaseSet.forEach((alg) => {
+        //     if (alg.group == group) {
+        //         ChosenGroupAlgs.push(alg)
+        //     }
+        // })
+        // }
        
+
 
 
         const GroupAlgsInSelected = ChosenGroupAlgs.every((alg) => selectedAlg.includes(alg))
@@ -228,15 +262,16 @@ export default function AlgDisplayPage(
     const AreAllAlgsChecked = () => {
         if (!algCasesSet) return false;
 
-        if(algCasesSet.details.id!="oll"&& algCasesSet.details.id!="pll"){
-            return algCasesSet.cases.every(alg => selectedAlg.includes(alg))
-        }
-        else if(algCasesSet.details.id=="oll"){
-            return dbOllCaseSet.every(alg => selectedAlg.includes(alg))
-        }
-        else{
-            return dbPllCaseSet.every(alg => selectedAlg.includes(alg))
-        }
+        // if(algCasesSet.details.id!="oll"&& algCasesSet.details.id!="pll"){
+        //     return algCasesSet.cases.every(alg => selectedAlg.includes(alg))
+        // }
+        // else if(algCasesSet.details.id=="oll"){
+        //     return dbOllCaseSet.every(alg => selectedAlg.includes(alg))
+        // }
+        // else{
+        //     return dbPllCaseSet.every(alg => selectedAlg.includes(alg))
+        // }
+        return cases.every(alg => selectedAlg.includes(alg))
         
 
     }
@@ -247,17 +282,18 @@ export default function AlgDisplayPage(
         if (AreAllAlgsChecked()) {
             setSelectedAlg([])
         }
-        else {
-            if(algCasesSet.details.id!="oll"&& algCasesSet.details.id!="pll"){
-            setSelectedAlg([...algCasesSet.cases])
-            }
-            else if(algCasesSet.details.id=="oll"){
-                setSelectedAlg([...dbOllCaseSet])
-            }
-            else{
-                setSelectedAlg([...dbPllCaseSet])
-            }
-        }
+        // else {
+        //     if(algCasesSet.details.id!="oll"&& algCasesSet.details.id!="pll"){
+        //     setSelectedAlg([...algCasesSet.cases])
+        //     }
+        //     else if(algCasesSet.details.id=="oll"){
+        //         setSelectedAlg([...dbOllCaseSet])
+        //     }
+        //     else{
+        //         setSelectedAlg([...dbPllCaseSet])
+        //     }
+        // }
+        setSelectedAlg([...cases])
     }
 
     const DissableLearnBtn = () => {
@@ -344,37 +380,40 @@ export default function AlgDisplayPage(
 
     useEffect(()=>{
         
-        let newCaseItem
-        if(algCasesSet.details.id=="oll"){
-            newCaseItem={
-                dbOllCaseSet:dbOllCaseSet,
-                details: {
-                    id: "oll"
-                }
-            };
+        let newCaseItem ={
+            cases:cases,
+            details:type
         }
-        else if(algCasesSet.details.id=="pll"){
-            newCaseItem={
-                dbPllCaseSet:dbPllCaseSet,
-                details: {
-                    id: "pll"
-                }
-            };
-        }
-            else {
-            newCaseItem = algCasesSet;
-        }
-        console.log("Case2",dbOllCaseSet,algCasesSet)
+        // if(algCasesSet.details.id=="oll"){
+        //     newCaseItem={
+        //         dbOllCaseSet:dbOllCaseSet,
+        //         details: {
+        //             id: "oll"
+        //         }
+        //     };
+        // }
+        // else if(algCasesSet.details.id=="pll"){
+        //     newCaseItem={
+        //         dbPllCaseSet:dbPllCaseSet,
+        //         details: {
+        //             id: "pll"
+        //         }
+        //     };
+        // }
+        //     else {
+        //     newCaseItem = algCasesSet;
+        // }
+        // console.log("Case2",dbOllCaseSet,algCasesSet)
         setSelectedCaseSet(newCaseItem)
         
-    },[dbOllCaseSet,dbPllCaseSet])
+    },[cases])
 
 
 
 
     return <>
-        {console.log("Case3",selectedCaseSet,caseClicked,dbOllCaseSet,dbOllCaseSet==true)}
-        {selectedCaseSet && caseClicked && (selectedCaseSet.details.id!="pll" || dbPllCaseSet.length>0) && (selectedCaseSet.details.id!="oll" || dbOllCaseSet.length>0) && <div className='container-fluid '>
+        {/* {console.log("Case3",selectedCaseSet,caseClicked,dbOllCaseSet,dbOllCaseSet==true)} */}
+        {selectedCaseSet && caseClicked && <div className='container-fluid '>
                     <div className='row align-items-center'>
                         <div className='col justify-content-end d-flex p-0'>
                             <button className={`${darkMode ? "dark-learn-btn" : "light-learn-btn"} m-1 btn btn-info `} disabled={DissableLearnBtn()} type='button'>
@@ -495,12 +534,12 @@ export default function AlgDisplayPage(
 
                                         </tr>
                                        
-                                        {(selectedCaseSet.details.id=="oll"?dbOllCaseSet: "pll"? dbPllCaseSet:algCasesSet.cases).map(alg => {
+                                        {cases.map(alg => {
                                             
                                             return (
 
 
-                                                alg.group == group && openGroups[group] &&
+                                                alg.group == group && alg.algNumber==0 && openGroups[group] &&
                                                 <>
 
                                                     <tr className={`${darkMode ? "darkRow" : "lightRow"} CasesAlgTableRow ${dCrossShown ? "" : "d-none"}`} role="row" >
@@ -511,7 +550,9 @@ export default function AlgDisplayPage(
                                                             <div>
                                                                 <CaseImage
                                                                     size={80}
-                                                                    alg={alg instanceof Array?alg.algs[0]:alg.algs}
+                                                                    // alg={alg instanceof Array?alg.algs[0]:alg.algs}
+                                                                    alg={selectedCaseSet.details=="f2l"?f2lCaseSet.cases[alg.f2lNumber].algs[0]:alg instanceof Array?alg.algs[0]:alg.algs}
+                    
                                                                     caseSetDetails={algCasesSet.details}
                                                                 ></CaseImage>
                                                             </div>
@@ -563,7 +604,7 @@ export default function AlgDisplayPage(
 
                         </tbody>
                     </table>
-                    {showPopUpCard.length > 0 && <ShowAlgCard alg={showPopUpCard[0]} algtype={selectedCaseSet.details.id} onClose={() => setShowPopUpCard([])} algCasesSet={algCasesSet} />}
+                    {showPopUpCard.length > 0 && <ShowAlgCard alg={showPopUpCard[0]} algtype={type} onClose={() => setShowPopUpCard([])} algCasesSet={algCasesSet} />}
 
                 </div>}
     </>

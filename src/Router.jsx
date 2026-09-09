@@ -16,9 +16,11 @@ import MyAlgsPage from "./pages/MyAlgsPage/MyAlgsPage.jsx";
 import MyOllPage from "./pages/MyAlgsPage/MyOllPage.jsx"
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage.jsx'
 import BarOverlay from "./pages/BarPersevationPage/SingleBarOverlay.jsx";
-import { ArrowDataGenerator } from "./dataGeneration/ArrowDataGenerator.jsx";
 
+import { ArrowDataGenerator } from "./dataGeneration/ArrowDataGenerator.jsx";
+import CheckAlgCorrect from "./pages/TrainSelectPage/CheckAlgCorrect.jsx";
 import { PllDataGenerator } from "./dataGeneration/PllDataGenerator.jsx";
+import { F2lDataGenerator } from "./dataGeneration/f2lDataGenerator.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -51,7 +53,7 @@ export const router = createBrowserRouter([
       // { path: "labs", element: <ArrowDataGenerator/>},
       { path: "myAlgs",
           children:[
-            {index: true, element: <PllDataGenerator/>},
+            {index: true, element: <ArrowDataGenerator/>},
             // {index: true, element: <MyAlgsPage/>},
             { path: "oll", element: <MyOllPage/>}
           ] },

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"; // removed 'use'
+import React, { useEffect, useRef, useState,useMemo } from "react"; // removed 'use'
 import { Modal } from "react-bootstrap";
 import { FaIcon } from '../../assets/fontAwesome.js';
 import CaseImage from "../../components/Oll/cubing/cubeImage.jsx";
@@ -10,23 +10,41 @@ import {ArrowDataGenerator} from "../../dataGeneration/ArrowDataGenerator.jsx"
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from '../../data/NewGeneratedData/db.js';
 
-import { useOll } from "../../context/OllContext";
+// import { useOll } from "../../context/OllContext";
 
-import {sortOlls} from "../../context/OllContext.jsx"
+// import {sortOlls} from "../../context/OllContext.jsx"
 
-import { usePll } from "../../context/PllContext";
+// import { usePll } from "../../context/PllContext";
 
-import {sortPlls} from "../../context/PllContext.jsx"
+// import {sortPlls} from "../../context/PllContext.jsx"
 
-import { ChangeOlls } from "./ChangeOlls.jsx";
+import { useAlgs } from "../../context/AlgContext.jsx";
+import CheckAlgCorrect from "./CheckAlgCorrect.jsx";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
+
+
+// import { ChangeOlls } from "./ChangeOlls.jsx";
 
 function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
     console.log("Showing Card",algtype,alg)
 
-    const {swapOllsAlgnumber,createOllEmptySlot } = useOll();
-    const {swapPllsAlgnumber,createPllEmptySlot } = usePll();
+     const {
+            data,
+            getAlgsByGroup,
+            addAlg,
+            createEmptySlot,
+            swapAlgNumbers,
+            changeAlg
+        } = useAlgs();
 
+    const cases = {
+        oll: data.oll.all,
+        pll: data.pll.all,
+        f2l: data.f2l.all
+    }[algtype] ?? algCasesSet?.cases ?? [];
         
+    const table = data[algtype].table;
+
     const [editClick1,setEditClick1]= useState(false)
     const [editClick2,setEditClick2]= useState(false)
     const [editedAlg1,setEditedAlg1]=useState([])
@@ -38,34 +56,65 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
     
     const [changedAlgArray,setChangedAlgArray]=useState(["","",false,null])
 
-    let AlgVersions = useLiveQuery(()=>{
+    const [loadF2lSlotsPerseved,setLoadF2lSlotsPerseved]=useState(true)
+    
+    // let AlgVersions = useLiveQuery(()=>{
             
-        if(algtype=="oll"){
-              return db.olls.where("ollNumber").equals(alg.ollNumber).toArray().then(arr => [...arr].sort(sortOlls));;
-        }
-        if(algtype=="pll"){
-            return db.plls.where("pllNumber").equals(alg.pllNumber).toArray().then(arr => [...arr].sort(sortPlls));;
-        }
-            },[]
-          );
+    //     // if(algtype=="oll"){
+    //     //       return cases.where("ollNumber").equals(alg.ollNumber).toArray().then(arr => [...arr].sort(sortOlls));;
+    //     // }
+    //     // if(algtype=="pll"){
+    //     //     return cases.where("pllNumber").equals(alg.pllNumber).toArray().then(arr => [...arr].sort(sortPlls));;
+    //     // }
 
-    console.log("UpdateO2",AlgVersions)
+    //     const {numberField,sortFunction} = data[algtype]
+    //     let FilteredCases=cases.filter((algitem)=>algitem[numberField]==alg[numberField]).sort(sortFunction)
+    //     console.log("CardPopUpData",FilteredCases,cases,numberField,alg,algtype)
+    //     return FilteredCases
+    //         },[algtype,alg]
+    //       );
+
+    const { numberField, sortFunction } = data[algtype];
+
+
+    const AlgVersions = useMemo(() => {
+    return cases
+        .filter(
+            algitem =>
+                algitem[numberField] === alg[numberField]
+        )
+        .sort(sortFunction);
+}, [cases, numberField, sortFunction, alg]);
+
+    console.log("AlgVersions =", AlgVersions);
     
        
+    const creatingSlotRef = useRef(false);
+
     useEffect(()=>{
     if(AlgVersions){
         if (AlgVersions.length==1){
-            console.log("createOllEmptySlot")
+            console.log("createOllEmptySlot",AlgVersions)
+            if(creatingSlotRef.current){
+                return
+            }
+            creatingSlotRef.current=true
             const createSlot = async ()=>{
 
             
-                if(algtype=="oll"){
-                    await createOllEmptySlot(AlgVersions[0].ollNumber, AlgVersions[0].group);
-                }
-                if(algtype=="pll"){
-                    await createPllEmptySlot(AlgVersions[0].pllNumber, AlgVersions[0].group);
-                }
-            
+                // if(algtype=="oll"){
+                //     await createOllEmptySlot(AlgVersions[0].ollNumber, AlgVersions[0].group);
+                // }
+                // if(algtype=="pll"){
+                //     await createPllEmptySlot(AlgVersions[0].pllNumber, AlgVersions[0].group);
+                // }
+                const { numberField } = data[algtype];
+
+                await createEmptySlot(
+                    algtype,
+                    AlgVersions[0][numberField],
+                    AlgVersions[0].group
+                );
             }
         
         createSlot()
@@ -74,10 +123,12 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
             
     },[AlgVersions])
        
-    console.log(AlgVersions)
+console.log("AlgVersions2 =", AlgVersions);
 
     const InputAlg1= useRef(null)
     const InputAlg2= useRef(null)
+
+    const [isChecking, setIsChecking] = useState(false);
 
     useEffect(()=>{
         if(editClick2 && InputAlg2.current){
@@ -99,7 +150,7 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
     // console.log("DefAlg12",LastAlg1.algs,LastAlg2.algs)
 
     const handleSwap = async () => {
-        console.log("HandleSwapClciek",handleSwapClicked,AlgVersions,LastAlg1,LastAlg2)
+        console.log("HandleSwapClciek",handleSwapClicked,changedAlgArray,AlgVersions,LastAlg1,LastAlg2)
     if(handleSwapClicked==false && LastAlg2?.algs){
         console.log("HandleSwapClciek2",)
         setHandleSwapClicked(true)
@@ -107,7 +158,7 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
             //handleSwapClicked.current=false
             setHandleSwapClicked(false)
         }, 2000);
-        if(!changedAlgArray[2]){
+        if(changedAlgArray[2]==false){
             if (LastAlg1?.algs && editedAlg1.length==editedAlg2.length && LastAlg2?.algs) {
                 console.log("edited1Here?3")
                 setEditedAlg1((prev)=>[...prev,LastAlg2])
@@ -121,12 +172,13 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
                     setEditedAlg2((prev)=>[...prev,LastAlg1])
         }
         console.log("StartSwap2",LastAlg1,LastAlg2)
-        if(algtype=="oll"){
-            await swapOllsAlgnumber(LastAlg1, LastAlg2);
-        }
-        if(algtype=="pll"){
-            await swapPllsAlgnumber(LastAlg1, LastAlg2);
-        }
+        // if(algtype=="oll"){
+        //     await swapOllsAlgnumber(LastAlg1, LastAlg2);
+        // }
+        // if(algtype=="pll"){
+        //     await swapPllsAlgnumber(LastAlg1, LastAlg2);
+        // }
+        await swapAlgNumbers(algtype,LastAlg1,LastAlg2)
         }
         setExistPrevAlg(true)
     }
@@ -168,24 +220,27 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
 
         
         console.log("Wut44",AlgVersions,editedAlg1,editedAlg2)
-    //if(editedAlg1.length==0){
+    if(editedAlg1.length==0){
         if (AlgVersions?.[0]?.algs &&(editedAlg1?.length==editedAlg2?.length)) {
             console.log("edited1Here?")
-            setEditedAlg1((prev)=>[...prev,AlgVersions[0]])
-        //setEditedAlg1([AlgVersions[0]]);
-   // }
+            // setEditedAlg1((prev)=>[...prev,AlgVersions[0]])
+        setEditedAlg1([AlgVersions[0]]);
+   }
     }
-    //if(editedAlg2.length==0){
-        if (AlgVersions?.[1]?.algs) {
-            //setEditedAlg2([AlgVersions[1]]);
-            setEditedAlg2((prev)=>[...prev,AlgVersions[1]])
+    if(editedAlg2.length==0 ){
+        console.log("Wut55",AlgVersions,AlgVersions?.[1],AlgVersions?.[1]?.algs)
+        if (AlgVersions?.[1]?.algs||AlgVersions?.[1]?.algs=="") {
+            console.log("Wut55AddEditedAlg2",AlgVersions[1])
+            setEditedAlg2([AlgVersions[1]]);
+            // setEditedAlg2((prev)=>[...prev,AlgVersions[1]])
         }
         // else{
         //     setEditedAlg2([""])
         // }
         }
-   // }
+   }
     }, [AlgVersions]);
+
     const CloseAndClearPopUp= (onClose)=>{
         setEditClick1(false)
         setEditClick2(false)
@@ -217,8 +272,9 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
         let  Alg1Input= InputAlg1.current?.value ?? "";
 
         
-
-        if(!newAlg1 &&Alg1Input&&Alg1Input!=editedAlg1[editedAlg1.length-1].algs){
+          console.log("Default1",Alg1Input,Alg1Input!=editedAlg1[editedAlg1.length-1].algs,editedAlg1[editedAlg1.length-1]?.algs)
+        
+        if(Alg1Input&&Alg1Input!=editedAlg1[editedAlg1.length-1].algs){
             console.log("Same",Alg1Input,editedAlg1[editedAlg1.length-1])
             console.log("Changalgarray1",[Alg1Input, AlgVersions[0], true])
             // setEditedAlg2((prev)=>[...prev,prev[prev.length-1]])
@@ -227,23 +283,9 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
             setChangedAlgArray([Alg1Input, AlgVersions[0], true,1])
             
         }
+        
 
         console.log("UpdateAlg1",newAlg1,editedAlg1)
-        if(newAlg1){
-            if(algtype=="oll"){
-                 await db.olls.update(
-                newAlg1.id,
-                {...newAlg1}
-            );
-            }
-            if(algtype=="pll"){
-                 await db.plls.update(
-                newAlg1.id,
-                {...newAlg1}
-            );
-            }
-           
-        }
         // else{
         //     setEditedAlg1((prev)=>[...prev,prev[prev.length-1]])
         // }
@@ -259,45 +301,29 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
 
     const SaveAndChange2= async(newAlg2)=>{
         
-       
+        console.log("AlgVersions3 =", AlgVersions);
         let Alg2Input=InputAlg2.current?.value ?? "";
         
         console.log(Alg2Input)
 
-         console.log("Default2",Alg2Input,editedAlg2)
+         console.log("Default2",Alg2Input,editedAlg2[editedAlg2.length-1]?.algs)
         
-        if(!newAlg2 &&Alg2Input&&Alg2Input!=editedAlg2[editedAlg2.length-1]){
+        if(Alg2Input&&Alg2Input!=editedAlg2[editedAlg2.length-1]?.algs){
             // setEditedAlg1((prev)=>[...prev,prev[prev.length-1]])
             // setEditedAlg2((prev)=>[...prev,Alg2Input])
+            
             console.log("Changalgarray2",[Alg2Input, AlgVersions[1], true])
             setChangedAlgArray([Alg2Input, AlgVersions[1], true,2])
 
         }
-        if(newAlg2){
-            // await db.olls.update(
-            //     newAlg2.id,
-            //     {...newAlg2}
-            // );
-            if(algtype=="oll"){
-                 await db.olls.update(
-                newAlg2.id,
-                {...newAlg2}
-            );
-            }
-            if(algtype=="pll"){
-                 await db.plls.update(
-                newAlg2.id,
-                {...newAlg2}
-            );
-            }
-        }
+
         // else{
         //     //setEditedAlg2((prev)=>[...prev,prev[prev.length-1]])
         // }
         setEditClick2(false)
 
         
-        if(Alg2Input&&Alg2Input!=editedAlg2[editedAlg2.length-1]){
+        if(Alg2Input&&Alg2Input!=editedAlg2[editedAlg2.length-1]?.algs){
             setExistPrevAlg(true)
         }
     }
@@ -308,15 +334,14 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
         let newAlg1 = editedAlg1.length > 1? editedAlg1.slice(0, -1): editedAlg1;
         let newAlg2 = editedAlg2.length > 1? editedAlg2.slice(0, -1): editedAlg2;
         
-        setHandleSwapClicked(true)
-        setTimeout(() => {
-            //handleSwapClicked.current=false
-            setHandleSwapClicked(false)
-        }, 2000);
         
         if(!changedAlgArray[2]&& !handleSwapClicked){
-            // await db.olls.update(AlgVersions[0].id,editedAlg1[editedAlg1.length-2]);
-            // await db.olls.update(AlgVersions[1].id,editedAlg2[editedAlg2.length-2]);
+
+            
+            await changeAlg(algtype, editedAlg1[editedAlg1.length-2].algs, AlgVersions[0]);
+            await changeAlg(algtype, editedAlg2[editedAlg2.length-2].algs, AlgVersions[1]);
+            // await cases.update(AlgVersions[0].id,editedAlg1[editedAlg1.length-2]);
+            // await cases.update(AlgVersions[1].id,editedAlg2[editedAlg2.length-2]);
 
         
         
@@ -328,8 +353,8 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
                 setExistPrevAlg(false)
             }
             console.log("edited1Here?2")
-            setEditedAlg1(newAlg1)
-            SaveAndChange1(newAlg1[newAlg1.length-1])
+            setEditedAlg1((prev)=>prev.slice(0,-1))
+            // SaveAndChange1(newAlg1[newAlg1.length-1])
         }
         
         if(editedAlg2.length>1){
@@ -339,11 +364,17 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
             else{
                 setExistPrevAlg(false)
             }
-            setEditedAlg2(newAlg2)
-            SaveAndChange2(newAlg2[newAlg2.length-1])
+            setEditedAlg2((prev)=>prev.slice(0,-1))
+            // SaveAndChange2(newAlg2[newAlg2.length-1])
         }
 
         console.log("SameUndoing",editedAlg1,editedAlg2)
+
+        setHandleSwapClicked(true)
+        setTimeout(() => {
+            //handleSwapClicked.current=false
+            setHandleSwapClicked(false)
+        }, 2000);
         // if(editedAlg1.length > 1 || editedAlg2.length > 1){
         //      console.log("Exist Prev",editedAlg1,editedAlg2,editedAlg1.length,editedAlg2.length)
         //     setExistPrevAlg(true)
@@ -382,7 +413,8 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
             <Modal.Body className="text-center">
                 <CaseImage
                     size={200}
-                    alg={DefaultAlg1?DefaultAlg1:""}
+                    alg={algtype=="f2l"?f2lCaseSet.cases[AlgVersions[0]?.f2lNumber].algs[0]:DefaultAlg1?DefaultAlg1:""}
+                    //F2l does not display correct side with rotations in algorithm
                     caseSetDetails={algCasesSet.details}
                 ></CaseImage>
                 <div className="popUpContainer">
@@ -544,7 +576,8 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
                 </div>
                 
             </Modal.Footer>
-            {(changedAlgArray.length>0 &&changedAlgArray[0] && changedAlgArray[1]!=null &&changedAlgArray[2]==true)  
+            {console.log("CheckNewPage",algtype,changedAlgArray,editClick2)}
+            {(algtype=="oll" && changedAlgArray.length>0 &&changedAlgArray[0] && changedAlgArray[1]!=null &&changedAlgArray[2]==true)  
                 && (<>
                 {console.log("NewPage",changedAlgArray)}
                 
@@ -559,8 +592,93 @@ function ShowAlgCard({alg,algtype,onClose,algCasesSet}){
                       setExistPrevAlg(false)
                     }}
                     onSuccess={() => {
+
+                    if(changedAlgArray[3]==1){
+                        const savedAlg = {
+                    ...changedAlgArray[1],
+                    algs: changedAlgArray[0]
+                };
+
+                setEditedAlg1(prev => [...prev, savedAlg]);
+                setEditedAlg2(prev=> [...prev,prev[prev.length-1]])
+                    }
+                    if(changedAlgArray[3]==2){
+                        const savedAlg = {
+                    ...changedAlgArray[1],
+                    algs: changedAlgArray[0]
+                };
+                
+                setEditedAlg1(prev=> [...prev,prev[prev.length-1]])
+                setEditedAlg2(prev => [...prev, savedAlg]);
+              
+                    }
+                        
+
                         console.log("Succes",changedAlgArray)
                       setChangedAlgArray([changedAlgArray[0], changedAlgArray[1], false,changedAlgArray[3]]);
+                    }}
+                    />
+                    </>
+                    
+                  )}
+            {(algtype!="oll" && changedAlgArray.length>0 &&changedAlgArray[0] && changedAlgArray[1]!=null &&changedAlgArray[2]==true)  
+                && (<>
+                {console.log("NewPage",changedAlgArray)}
+                
+                    <CheckAlgCorrect
+                      type={algtype}
+                      newAlg={changedAlgArray[0]}
+                      oldAlg={changedAlgArray[1].algs!==""?changedAlgArray[1]:{...AlgVersions[0], id:changedAlgArray[1].id, algNumber:changedAlgArray[1].algNumber}}
+                      onError={(errorMessage) => {
+                      console.warn("CornerPermutation error:", errorMessage);
+            
+                      setChangedAlgArray([changedAlgArray[1], changedAlgArray[1], false,changedAlgArray[3]]);
+                      setExistPrevAlg(false)
+                    }}
+                    onSuccess={() => {
+
+                        if(changedAlgArray[3]==1){
+                        const savedAlg = {
+                    ...changedAlgArray[1],
+                    algs: changedAlgArray[0]
+                };
+
+                setEditedAlg1(prev => [...prev, savedAlg]);
+                setEditedAlg2(prev=> [...prev,prev[prev.length-1]])
+                    }
+                    if(changedAlgArray[3]==2){
+                        const savedAlg = {
+                    ...changedAlgArray[1],
+                    algs: changedAlgArray[0]
+                };
+                
+                setEditedAlg1(prev=> [...prev,prev[prev.length-1]])
+                setEditedAlg2(prev => [...prev, savedAlg]);
+              
+                    }
+                        console.log("Succes",changedAlgArray)
+                      setChangedAlgArray([changedAlgArray[0], changedAlgArray[1], false,changedAlgArray[3]]);
+                    }}
+                    />
+                    </>
+                    
+                  )}
+{console.log("NewNewPage",algtype,AlgVersions)}
+                  {(algtype=="f2l" && loadF2lSlotsPerseved && AlgVersions[0] &&!AlgVersions[0].slotsPerseved)  
+                && (<>
+                
+                {console.log("MewNewPage2",AlgVersions)}
+                    <CheckAlgCorrect
+                      type={algtype}
+                      newAlg={AlgVersions[0].algs}
+                      oldAlg={AlgVersions[0]}
+                      onError={(errorMessage) => {
+                      console.warn("F2l Slots error:", errorMessage);
+                    }}
+                    onSuccess={() => {
+                        
+                        console.log("AlgVersions",AlgVersions[0])
+                        setLoadF2lSlotsPerseved(false)
                     }}
                     />
                     </>

@@ -18,6 +18,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 export function Inverse(alg){
 
     
+    if(!alg){
+        return ""
+    }
     console.log(`InverseAlgStart ${alg}`,typeof(alg))
     let inverse=""
 
@@ -48,7 +51,7 @@ export function Inverse(alg){
         }
     }
     inverse=inverse.trim()
-    console.log(`InverseAlgEnd ${inverse}`)
+    // console.log(`InverseAlgEnd ${inverse}`)
     }
     return inverse
 }
@@ -265,7 +268,7 @@ useEffect(() => {
             setScramble(currentalg.algs[currentAlgIndexRef] + CornerPermutations[scrambleIndex.current]); 
         }
            
-    }, 20);
+    }, 200);
 
     if(newAlg==null){
                 setScramble(currentalg.algs[currentAlgIndexRef] + CornerPermutations[scrambleIndex.current]);        
@@ -374,7 +377,7 @@ useEffect(() => {
     if(currentAlgIndexRef==0){
         setBarMovements([["Full"],["Back"],["Front"],["Left"],["Right"],["Diag"]])
     }
-  },20);
+  },200);
 
   return () => clearTimeout(timeout);
 }, [scramble]);
@@ -1523,7 +1526,7 @@ useEffect(() => {
         }
 
         console.log("LengthThest",dbOllCaseSet,checkedAlgNumber,chosenAlg,)
-        if(dbOllCaseSet.length>1){
+        if(dbOllCaseSet.length>1 && dbOllCaseSet[1].algs!=""){
             console.log("NewChosenAlg",checkedAlgNumber,dbOllCaseSet[checkedAlgNumber])
             setOll(dbOllCaseSet[checkedAlgNumber])
             console.log("NewOll",dbOllCaseSet[checkedAlgNumber])
@@ -1593,7 +1596,17 @@ useEffect(() => {
 
 let newJsonArrowsToExport = UpdateAUFs([...jsonArrowsToExport]);
     console.log("NewPls",newJsonArrowsToExport)
+      
+    //Important!
+    console.log(
+    "const arrowOllSet = " +
+    JSON.stringify(newJsonArrowsToExport, null, 2)
+        .replace(/"([^"]+)":/g, '$1:') + 
+    ";\n\nexport default arrowOllSet;"
+    );
   }
+
+
     
 
 }, [jsonArrowsToExport,dbOllCaseSet]);

@@ -1,5 +1,5 @@
 
-import React, { useContext, useState, useEffect } from "react"; // removed 'use'
+import React, { useContext, useState, useEffect } from "react"; 
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import CaseImage from "../../components/Oll/cubing/cubeImage.jsx";
 
@@ -9,7 +9,7 @@ import CornerPermutationPage from '../CpPage/CornerPermutationPage.jsx';
 import cpllCaseSet from "../../data/cpllCaseSet.js";
 import eollCaseSet from "../../data/eollCaseSet.js";
 import epllCaseSet from "../../data/epllCaseSet.js";
-import f2lCaseSet from "../../data/f2l1CaseSet.js";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
 import ocllCaseSet from "../../data/ocllCaseSet.js";
 import ollCaseSet from "../../data/ollCaseSet.js";
 import pllCaseSet from "../../data/pllCaseSet.js";
@@ -45,20 +45,68 @@ import LabsCell, {AddLabsCell,CombinedAddRemoveLabsCell} from "./LabsCell.jsx";
 import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../../hooks/useWindowDimensions.jsx";
 
+import { LabsRemoveButton } from "./LabsRemoveButton.jsx";
 
-export function Labs2CellGrid({startCountNumber,cells,setCells,cubeSize,setCubeSize,unlinkable,oll, LastSlotAlgs,shortGroupTable}){
+
+export function Labs2CellGrid({gridList,startCountNumber,cells,setCells,cubeSize,setCubeSize,linkedWith, unlinkable,oll, LastSlotAlgs,shortGroupTable}){
     
     console.log("ShortTable0",shortGroupTable)
+
+
+
+    //Important
+
+    let nestedGridNumberList1= cells[startCountNumber]?.gridNumber
+
+    let linkedWith1=[]
+    nestedGridNumberList1.forEach((number)=>{
+        linkedWith1.push([[gridList[number]][2],gridList[number][1]])
+    })
     
+    let nestedGridNumberList2= cells[startCountNumber+1].gridNumber
+
+    let linkedWith2=[]
+    nestedGridNumberList2.forEach((number)=>{
+        linkedWith2.push([[gridList[number]][2],gridList[number][1]])
+    })
+
+
+
+
+
+
+    // if(unlinkable.includes(num)){
+    //     gridList.forEach((grid) => {
+    //         if(grid[0]=="Custom"){
+    //             if(grid[2].includes[num]){
+    //                 linkedWith1.push(grid[2],grid[1])
+    //             }
+    //         }
+            
+    //     });
+    // }
+
+    // if(unlinkable.includes(num+1)){
+    //     gridList.forEach((grid) => {
+    //         if(grid[0]=="Custom"){
+    //             if(grid[2].includes[num+1]){
+    //                 linkedWith2.push(grid[2],grid[1])
+    //             }
+    //         }
+            
+    //     });
+    // }
+
+
     const { darkMode } = useContext(ThemeContext)
     
     return (
         
         <div className="Labs2CellGridCont">
 
-             <CombinedAddRemoveLabsCell cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={[]} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith1} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={[]} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith2} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
             
  
         </div>
@@ -70,13 +118,19 @@ export default Labs2CellGrid
 
 
 
-export function Labs4CellLastSlotGrid({startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs, shortGroupTable}){
+export function Labs6CellLastSlotGrid({startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs, shortGroupTable}){
     
     console.log("ShortTable1",shortGroupTable)
 
     const { darkMode } = useContext(ThemeContext)
 
-    let linkedWith= [[startCountNumber],["LastSlot"]]
+
+    
+    let num=startCountNumber
+    let linkedWith= [[num,num+1,num+2,num+3,num+4,num+5],"LastSlot"]
+    
+
+    
     return (
         <>
         <div className="Labs4CellGridCont">
@@ -86,17 +140,47 @@ export function Labs4CellLastSlotGrid({startCountNumber,cells,setCells,unlinkabl
         
         <div className="Labs4CellGrid">
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <div>
+                <h5 style={{height:"1.25rem"}}></h5>
+                <h5 style={{height:"1.25rem"}}></h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            </div>
+           
+            <div style={{width:"100%",height:"100%"}}>
+                <h5 style={{height:"1.25rem", display:`${cells[startCountNumber+1].hidden?"none":"block"}`}} >Setup: {cells[startCountNumber+1].lastSlotAlgSetup}</h5>
+                <h5 style={{height:"1.25rem", display:`${cells[startCountNumber+1].hidden?"none":"block"}`}}>Solve: {cells[startCountNumber+1].lastSlotAlgSolve}</h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            </div>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
-        
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+4} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <div>
+                <h5 style={{display:`${cells[startCountNumber+2].hidden?"none":"block"}`}}>Setup: {cells[startCountNumber+2].lastSlotAlgSetup}</h5>
+                <h5 style={{display:`${cells[startCountNumber+2].hidden?"none":"block"}`}}>Solve: {cells[startCountNumber+2].lastSlotAlgSolve}</h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+5} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            </div>
+
+            <div>
+                <h5 style={{display:`${cells[startCountNumber+3].hidden?"none":"block"}`}}>Setup: {cells[startCountNumber+3].lastSlotAlgSetup}</h5>
+                <h5 style={{display:`${cells[startCountNumber+3].hidden?"none":"block"}`}}>Solve: {cells[startCountNumber+3].lastSlotAlgSolve}</h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            </div>
+
+            <div>
+                <h5 style={{display:`${cells[startCountNumber+4].hidden?"none":"block"}`}}>Setup: {cells[startCountNumber+4].lastSlotAlgSetup}</h5>
+                <h5 style={{display:`${cells[startCountNumber+4].hidden?"none":"block"}`}}>Solve: {cells[startCountNumber+4].lastSlotAlgSolve}</h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+4} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            </div>
+
+            <div>
+                <h5 style={{display:`${cells[startCountNumber+5].hidden?"none":"block"}`}}>Setup: {cells[startCountNumber+5].lastSlotAlgSetup}</h5>
+                <h5 style={{display:`${cells[startCountNumber+5].hidden?"none":"block"}`}}>Solve: {cells[startCountNumber+5].lastSlotAlgSolve}</h5>
+                <CombinedAddRemoveLabsCell celltype={"LastSlotGrid"} cellNumber={startCountNumber+5} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            </div>
 
         </div>
         </div>
@@ -104,10 +188,25 @@ export function Labs4CellLastSlotGrid({startCountNumber,cells,setCells,unlinkabl
     )
 }
 
-export function Labs4CellOLLGrid({startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs, shortGroupTable}){
+export function Labs6CellOLLGrid({removeButton,startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs, shortGroupTable}){
     
+
+    const { darkMode } = useContext(ThemeContext)
+
     console.log("ShortTable2",shortGroupTable)
-    let linkedWith=[]
+    let num=startCountNumber
+    let linkedWith= [[num,num+1,num+2,num+3,num+4,num+5],"OLL"]
+    
+    
+    const ContinueButtonstyle = {
+        alignItems: "center",
+        fontWeight: "bold",
+        borderWidth: "2px",
+        height: "80px",
+        backgroundColor:"red",
+        fontSize: "1.5rem",
+    }
+    
 
     return (
         <>
@@ -118,24 +217,32 @@ export function Labs4CellOLLGrid({startCountNumber,cells,setCells,unlinkable,cub
         
         <div className="Labs4CellGrid">
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
-            
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+        
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+4} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            <CombinedAddRemoveLabsCell celltype={"OLL"} cellNumber={startCountNumber+5} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
         </div>
+
+            <LabsRemoveButton onClick={removeButton}></LabsRemoveButton>
+
         </div>
         </>
     )
 }
 
-export function Labs4CellPLLGrid({startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs}){
+export function Labs6CellPLLGrid({startCountNumber,cells,setCells,unlinkable,cubeSize,setCubeSize,oll, LastSlotAlgs,shortGroupTable}){
     
     console.log("ShortTable3",shortGroupTable)
-    let linkedWith=[]
+    let num=startCountNumber
+    let linkedWith= [[num,num+1,num+2,num+3,num+4,num+5],"PLL"]
 
     return (
         <>
@@ -146,16 +253,21 @@ export function Labs4CellPLLGrid({startCountNumber,cells,setCells,unlinkable,cub
         
         <div className="Labs4CellGrid">
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs}></CombinedAddRemoveLabsCell>
-            
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+2} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+3} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+        
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+4} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+
+            <CombinedAddRemoveLabsCell celltype={"PLL"} cellNumber={startCountNumber+5} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
         </div>
         </div>
         </>
     )
 }
+

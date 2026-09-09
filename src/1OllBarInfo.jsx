@@ -23,7 +23,7 @@ import {useWindowWidthLogic,GetCentersPosition,addInformationToColorIndexList,ge
   CalculatePointsDistance, convert2CentersToCoordinates, Connect2Centers,getCirclePath,ArrowBarMovement} from "./pages/BarPersevationPage/BarPersevationLogic.jsx"
 import arrowsInfoGen from "./1OllArrowCpInfo"
 
-export function BarPersevationOverlay({oll,pll,permIndex,cpEasyWanted,cpSameOppWanted,barMovementWanted,cubeSize,setCubeSize,cubeSizeFixed, labsPageTrue}){
+export function BarPersevationOverlay({oll,pll,permIndex,cpEasyWanted,cpSameOppWanted,barMovementWanted,cubeSize,setCubeSize,cubeSizeFixed, labsPageTrue,view}){
  
 
   //Todo: fix caseimage bug R3 and U4 by splitting such moves up in R2 R etc.
@@ -80,7 +80,7 @@ const Scale=13.1/0.15740740740740744/150*cubeSize
         id: "oll",
         title: "OLL",
         subTitle: "Full OLL",
-        view: "plan",
+        view: view,
         stage:"cross",
         numCases: 57,
     }

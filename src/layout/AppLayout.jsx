@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom"
 import { ThemeContext } from '../context/DarkThemeContext.jsx'
 import { OllProvider } from '../context/OllContext.jsx';
 import { PllProvider } from '../context/PllContext.jsx';
+import { AlgProvider  } from '../context/AlgContext.jsx'
 
 
 import { seedDatabaseIfEmpty } from '../data/NewGeneratedData/db.js'
@@ -35,12 +36,12 @@ function AppLayout() {
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
-          <OllProvider>
-              <PllProvider>
-                  <NavBar />
-                  <Outlet />
-              </PllProvider>
-          </OllProvider>
+          <OllProvider >
+            <AlgProvider >
+                    <NavBar />
+                    <Outlet />
+            </AlgProvider >
+          </OllProvider >
       </ThemeContext.Provider>
   )
 }

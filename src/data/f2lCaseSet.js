@@ -1,6 +1,6 @@
-const f2l1CaseSet = {
+const f2lCaseSet = {
   details: {
-    id: "f2l1",
+    id: "f2l",
     title: "F2L 1",
     subTitle: "Last Slot",
     mask: "f2l",
@@ -503,4 +503,4 @@ const f2l1CaseSet = {
   ],
 };
 
-export default f2l1CaseSet;
+export default f2lCaseSet;

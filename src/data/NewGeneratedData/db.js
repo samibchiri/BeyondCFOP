@@ -4,8 +4,10 @@ import pllCaseSet from "../pllCaseSet.js";
 import ollCaseSet from "../ollCaseSet.js";
 
 import pllCases from "../customPllSet.js";
+import f2lCases from "../customf2lSet.jsx";
 
 export const db = new Dexie("ollDatabase");
+
 
 /*
   We store each algorithm variant as ONE ROW.
@@ -23,6 +25,12 @@ db.version(1).stores({
     pllNumber,
     algNumber,
     pllName,
+    group
+  `,
+  f2ls: `
+    id,
+    f2lNumber,
+    algNumber,
     group
   `,
   deletedOlls: `
@@ -84,15 +92,22 @@ export async function seedDatabaseIfEmpty() {
       let newCount = await db.olls.count();
       console.log(`IndexedDB seeded — ${newCount} records now present.`);
       
+
       await db.plls.clear();
       console.log("Seeding IndexedDB with default OLLs...");
-      const count = await db.plls.count();
 
       await db.plls.bulkPut(pllCases);
-
-      // await db.plls.bulkPut(pllCases);
       newCount = await db.plls.count();
       console.log(`IndexedDB seeded — ${newCount} records now present.`);
+
+      await db.f2ls.clear();
+
+      console.log("F2L after clear:", await db.f2ls.toArray());
+      await db.f2ls.bulkPut(f2lCases)
+      newCount = await db.f2ls.count();
+      console.log(`IndexedDB seeded — ${newCount} records now present.`);
+
+      console.log("F2L after clear2:", await db.f2ls.toArray());
     } else {
       console.log(`IndexedDB already has data (${count} records); skipping seed.`);
     }

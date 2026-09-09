@@ -8,7 +8,7 @@ import CornerPermutationPage from '../CpPage/CornerPermutationPage.jsx';
 import cpllCaseSet from "../../data/cpllCaseSet.js";
 import eollCaseSet from "../../data/eollCaseSet.js";
 import epllCaseSet from "../../data/epllCaseSet.js";
-import f2lCaseSet from "../../data/f2l1CaseSet.js";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
 import ocllCaseSet from "../../data/ocllCaseSet.js";
 import ollCaseSet from "../../data/ollCaseSet.js";
 import pllCaseSet from "../../data/pllCaseSet.js";

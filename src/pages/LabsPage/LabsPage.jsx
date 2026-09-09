@@ -9,7 +9,7 @@ import CornerPermutationPage from '../CpPage/CornerPermutationPage.jsx';
 import cpllCaseSet from "../../data/cpllCaseSet.js";
 import eollCaseSet from "../../data/eollCaseSet.js";
 import epllCaseSet from "../../data/epllCaseSet.js";
-import f2lCaseSet from "../../data/f2l1CaseSet.js";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
 import ocllCaseSet from "../../data/ocllCaseSet.js";
 import ollCaseSet from "../../data/ollCaseSet.js";
 import pllCaseSet from "../../data/pllCaseSet.js";
@@ -44,10 +44,11 @@ import useWindowDimensions from "../../hooks/useWindowDimensions.jsx";
 import LabsOllGroupButton, {LabsOllAlgButton,LabsPllGroupButton, LabsCellCopyNumber, AUFGrid} from "./LabsOllGroupButton.jsx";
 import { LabsLastSlotButton } from "./LabsLastSlotButton.jsx"; 
 import LabsCell from "./LabsCell.jsx";
-import Labs2CellGrid, {Labs4CellLastSlotGrid, Labs4CellOLLGrid, Labs4CellPLLGrid} from "./LabsGrids.jsx";
+import Labs2CellGrid, {Labs6CellLastSlotGrid, Labs6CellOLLGrid, Labs6CellPLLGrid} from "./LabsGrids.jsx";
 
+import { defaultCellInfo } from "./LabsCell.jsx";
 
-export default function CpTrainerPage(){
+export default function LabsPage(){
     const { darkMode } = useContext(ThemeContext)
     const [caseClicked, setCaseClicked] = useState(false)
     const [buttonClicked, setButtonClicked] = useState(false)
@@ -157,9 +158,98 @@ export default function CpTrainerPage(){
   14: "Corners Oriented"
 }
 
-    const [cells, setCells] = useState([
-         {
-        id: "cell-0",
+    
+
+    // const [gridList,setGridList] = useState([["LastSlot",0],["2Grid",6],["PLL",8]])
+
+    const [gridList,setGridList] = useState([["2Grid",0]])
+
+    const [customLinks,setCustomLinks] = useState([["LastSlot",[6,7]]])
+
+    
+    let unlinkableList=[]
+    gridList.forEach((grid)=>{
+        console.log("AllGrid",grid)
+        if(grid[0]!="2Grid" && grid[0]!="Custom"){
+            for(let i=grid[1];i<grid[1]+6;i++){
+                unlinkableList.push(i)
+            }
+        }
+        else if(grid[0]=="2Grid"){
+            for(let i=grid[1];i<grid[1]+2;i++){
+                unlinkableList.push(i)
+            }
+        }
+    })
+
+    console.log("TestLinkList",unlinkableList)
+    
+    function removeButton(index){
+        console.log("RemoveButton", index)
+    }
+
+    function gridCellLength(type){
+
+        return type=="2Grid"?2:6
+    }
+
+    const LastSlotAlgs=["R U R'", "L' U' L","R U' R'","L' U L'","R U2 R'", "L' U2 L", "R' F R F'", "L F' L' F"]
+
+    const LastSlotWaysToSolve=["U R U2 R'","U' R' F R F'","",""]
+
+    const addGrid =(type)=>{
+
+        let maxCount=0
+        if(gridList.length>0){
+            maxCount= gridList[gridList.length-1][1]+(gridCellLength(gridList[gridList.length-1][0]))
+            console.log("Maxcount",maxCount)
+        }
+        
+        setGridList((prev)=>[...prev,[type,maxCount]])
+
+        let addCellsList= []
+
+        for (let i=0;i<gridCellLength(type);i++){
+            if(i==1 && type!="2Grid"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,true),gridNumber:gridList.length})
+            }
+            else if(i==0 && type=="LastSlot"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,lastSlotAlgSetup:"R U R'",lastSlotAlgSolve:"R U' R'",linkedHead:true})
+            }
+            // else if(i==1 && type=="LastSlot"){
+            //     console.log("WayToSolve",i,LastSlotWaysToSolve[i-2])
+            //     addCellsList.push({...defaultCellInfo(maxCount+i,true),gridNumber:gridList.length,lastSlotAlgSetup:"R U R'",lastSlotAlgSolve:LastSlotWaysToSolve[i-2]})
+            // }
+            else if(i>1 && type=="LastSlot"){
+                console.log("WayToSolve",i,LastSlotWaysToSolve[i-2])
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,lastSlotAlgSetup:"R U R'",lastSlotAlgSolve:LastSlotWaysToSolve[i-2]})
+            }
+            else if(i==0 && type=="OLL"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,linkedHead:true})
+            }
+            else if(i>1 && type=="OLL"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,lastSlotAlgSetup:LastSlotAlgs[(i-2)*2]})
+            }
+            else if(i==0 && type=="PLL"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,linkedHead:true})
+            }
+            else{
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length})
+            }
+            
+        }
+
+        setCells((prev)=>[...prev,...addCellsList])
+
+        console.log("NoOLL",cells,gridList)
+        return null
+    }
+
+    const [unlinkable, setUnlinkable] = useState([unlinkableList])
+
+    const [cells, setCells] = useState(
+        [
+        {id: `cell-${0}`,
         cellNumber: 0,
         ollRecSetting: "",
         lastSlotAlgSetup: "",
@@ -167,24 +257,39 @@ export default function CpTrainerPage(){
         ollAlgSetupNumber: "",
         ollAlgNumber:"",
         prePllAUFSetup: "",
-        pllAlgSetup: ``,
+        pllAlgSetup: "R U R' F' R U R' U' R' F R2 U' R'",
+        pllName:"",
         postPllAUFSetup: "",
-        lastSlotAlgSolve:"R",
-        ollAlgSolve:"U2",
-        pllAlgSolve:"R",
-        lastSlotGridNumber:"",
-        pllGridNumber:"",
-        linkedCell: [1,"LastSlot"],
-        hidden: false
-    },
-]);
+        lastSlotAlgSolve:"",
+        ollAlgSolve:"",
+        pllAlgSolve:"",
+        gridNumber: [],
+        crossColor:"White",
+        view:"plan",
+        hidden: false,
+        linkedHead:false},
 
-    const [gridList,setGridList] = useState([["LastSlot",0],["2Grid",6],["PLL",8]])
+        {id: `cell-${1}`,
+        cellNumber: 1,
+        ollRecSetting: "",
+        lastSlotAlgSetup: "",
+        preOllAUFSetup: "",
+        ollAlgSetupNumber: "",
+        ollAlgNumber:"",
+        prePllAUFSetup: "",
+        pllAlgSetup: "",
+        pllName:"",
+        postPllAUFSetup: "",
+        lastSlotAlgSolve:"",
+        ollAlgSolve:"",
+        pllAlgSolve:"",
+        gridNumber: [],
+        crossColor:"White",
+        view:"plan",
+        hidden: false,
+        linkedHead:false}
+    ]);
 
-    const [unlinkable, setUnlinkable] = useState([])
-
-
-    let unlinkableList = []
     let prevCount=0
     useEffect(()=>{
         gridList.forEach((grid)=>{
@@ -224,7 +329,6 @@ export default function CpTrainerPage(){
     // console.log("Oll",oll)
     let j=0
 
-    const LastSlotAlgs=["R U' R'", "L U L'","R U R'","L U' L'","R U2 R'", "L U2 L'", "R' F R F'", "L F' L' F"]
 
     return <>
             <div className='TestContainersCont'>
@@ -259,24 +363,32 @@ export default function CpTrainerPage(){
                     <div className={`LabsGridCont`}>
                     
                 
-                {gridList.map((item)=>{
+                
+                {gridList.map((item,i)=>{
                     if(item[0]=="LastSlot"){
                         return(
-                            <Labs4CellLastSlotGrid startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs4CellLastSlotGrid>
+                            <Labs6CellLastSlotGrid removeButton={()=>{removeButton(i)}} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs6CellLastSlotGrid>
                 
                         )
                     }
                     if(item[0]=="2Grid"){
                         return(
-                            <h2></h2>
-                            // <Labs2CellGrid startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize}LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs2CellGrid>
+                            // <h2></h2>
+                            <Labs2CellGrid removeButton={()=>{removeButton(i)}} gridList={gridList} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize}LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs2CellGrid>
+                
+                        )
+                    }
+                    if(item[0]=="OLL"){
+                        return(
+                            // <h2></h2>
+                            <Labs6CellOLLGrid removeButton={()=>{removeButton(i)}} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs6CellOLLGrid>
                 
                         )
                     }
                     if(item[0]=="PLL"){
                         return(
-                            <h2></h2>
-                            // <Labs4CellPLLGrid startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs4CellPLLGrid>
+                            // <h2></h2>
+                            <Labs6CellPLLGrid removeButton={()=>{removeButton(i)}} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs6CellPLLGrid>
                 
                         )
                     }
@@ -289,7 +401,7 @@ export default function CpTrainerPage(){
 
                 <div className="AddLabsCellsCont">
             
-                    <button  className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+                    <button onClick={()=>{addGrid("LastSlot")}} className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                                    
                 style={{
                 
@@ -302,8 +414,8 @@ export default function CpTrainerPage(){
                     "--bs-btn-active-border-color": "red",
                 
                                         }}
-                                        >Add 4 LastSlotCells</button>
-                                <button  className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+                                        >Add 6 LastSlotCells</button>
+                                <button onClick={()=>{addGrid("2Grid")}} className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                 
                 style={{
                 
@@ -317,7 +429,7 @@ export default function CpTrainerPage(){
                 
                                         }}
                                         >Add 2 GridCells</button>
-                                        <button  className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+                                        <button onClick={()=>{addGrid("OLL")}} className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                 
                 style={{
                 
@@ -330,9 +442,9 @@ export default function CpTrainerPage(){
                     "--bs-btn-active-border-color": "red",
                 
                                         }}
-                                        >Add 4 OLLCells</button>
+                                        >Add 6 OLLCells</button>
 
-                                        <button  className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+                                        <button onClick={()=>{addGrid("PLL")}} className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                 
                 style={{
                 
@@ -345,9 +457,10 @@ export default function CpTrainerPage(){
                     "--bs-btn-active-border-color": "red",
                 
                                         }}
-                                        >Add 4 PLLCells</button>
+                                        >Add 6 PLLCells</button>
 
                 </div>
+                {/* <Labs2CellGrid removeButton={()=>{removeButton(i)}} gridList={gridList} startCountNumber={0} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize}LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs2CellGrid> */}
                 
                 </div>
                 

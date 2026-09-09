@@ -9,7 +9,7 @@ import CornerPermutationPage from '../CpPage/CornerPermutationPage.jsx';
 import cpllCaseSet from "../../data/cpllCaseSet.js";
 import eollCaseSet from "../../data/eollCaseSet.js";
 import epllCaseSet from "../../data/epllCaseSet.js";
-import f2lCaseSet from "../../data/f2l1CaseSet.js";
+import f2lCaseSet from "../../data/f2lCaseSet.js";
 import ocllCaseSet from "../../data/ocllCaseSet.js";
 import ollCaseSet from "../../data/ollCaseSet.js";
 import pllCaseSet from "../../data/pllCaseSet.js";
@@ -34,7 +34,7 @@ import BarPersevationOverlay from "../../1OllBarInfo.jsx";
 
 
 
-export function LabsLastSlotButton({onClick,text}){
+export function LabsLastSlotButton({onClick,text,width}){
 
 
 
@@ -45,6 +45,7 @@ export function LabsLastSlotButton({onClick,text}){
         fontWeight: "bold",
         borderWidth: "2px",
         height: "50px",
+        width:width,
     }
 
     return(

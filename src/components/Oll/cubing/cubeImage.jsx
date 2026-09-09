@@ -75,7 +75,7 @@ const normalizedAlgorithm = algorithm
   const rest = { mask, view, arrows, maskColor: resolvedMaskColor, cubeColor,cubeOpacity,cubeSize,
   stickerOpacity };
 
-  console.log("Normalized",normalizedAlgorithm)
+  console.log("Normalized")
   return <CubeImage case={normalizedAlgorithm || ""} height={size} width={size} {...rest} />;
 };
 
