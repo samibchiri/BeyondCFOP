@@ -359,9 +359,11 @@ function ShowBarFullHint({alg,pll, sixGridWanted,cpEasyWanted, cpSameOpp, cubeSi
                                 cpEasyWanted={cpEasyWanted}
                                 cpSameOppWanted={!cpSameOpp}
                                 barMovementWanted={false}
+                                cpWanted={"cpEasy"}
                                 cubeSize={cubeSize}
                                 setCubeSize={setCubeSize}
                                 cubeSizeFixed={true}
+                                view={"plan"}
                                 />
                         </div>
                         <div>
@@ -373,9 +375,11 @@ function ShowBarFullHint({alg,pll, sixGridWanted,cpEasyWanted, cpSameOpp, cubeSi
                                 cpEasyWanted={cpEasyWanted}
                                 cpSameOppWanted={!cpSameOpp}
                                 barMovementWanted={false}
+                                cpWanted={"cpEasy"}
                                 cubeSize={cubeSize}
                                 setCubeSize={setCubeSize}
                                 cubeSizeFixed={true}
+                                view={"plan"}
                                 />
                         </div>
                     </div>

@@ -48,27 +48,40 @@ import useWindowDimensions from "../../hooks/useWindowDimensions.jsx";
 import { LabsRemoveButton } from "./LabsRemoveButton.jsx";
 
 
-export function Labs2CellGrid({gridList,startCountNumber,cells,setCells,cubeSize,setCubeSize,linkedWith, unlinkable,oll, LastSlotAlgs,shortGroupTable}){
+export function Labs2CellGrid({gridList,startCountNumber,cells,setCells,cubeSize,setCubeSize,linkedWith,setLinkedWith, unlinkable,oll, LastSlotAlgs,shortGroupTable}){
     
-    console.log("ShortTable0",shortGroupTable)
+    console.log("ShortTable0",unlinkable ,linkedWith)
 
 
+    // let linkedWith1=[]
+    
+    // if(unlinkable.includes(cells[startCountNumber].cellNumber)){
+    //     linkedWith.forEach(list => {
+    //         if(list.includes(cells[startCountNumber].cellNumber)){
+    //             linkedWith1=list
+    //         }
+    //     });
+    // }
+
+    
+
+    
 
     //Important
 
-    let nestedGridNumberList1= cells[startCountNumber]?.gridNumber
+    // let nestedGridNumberList1= cells[startCountNumber]?.gridNumber
 
-    let linkedWith1=[]
-    nestedGridNumberList1.forEach((number)=>{
-        linkedWith1.push([[gridList[number]][2],gridList[number][1]])
-    })
+    // let linkedWith1=[]
+    // nestedGridNumberList1.forEach((number)=>{
+    //     linkedWith1.push([[gridList[number]][2],gridList[number][1]])
+    // })
     
-    let nestedGridNumberList2= cells[startCountNumber+1].gridNumber
+    // let nestedGridNumberList2= cells[startCountNumber+1].gridNumber
 
-    let linkedWith2=[]
-    nestedGridNumberList2.forEach((number)=>{
-        linkedWith2.push([[gridList[number]][2],gridList[number][1]])
-    })
+    // let linkedWith2=[]
+    // nestedGridNumberList2.forEach((number)=>{
+    //     linkedWith2.push([[gridList[number]][2],gridList[number][1]])
+    // })
 
 
 
@@ -104,9 +117,9 @@ export function Labs2CellGrid({gridList,startCountNumber,cells,setCells,cubeSize
         
         <div className="Labs2CellGridCont">
 
-            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith1} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+0} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} setLinkedWith={setLinkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
 
-            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith2} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
+            <CombinedAddRemoveLabsCell celltype={"2Grid"} cellNumber={startCountNumber+1} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} setLinkedWith={setLinkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></CombinedAddRemoveLabsCell>
             
  
         </div>

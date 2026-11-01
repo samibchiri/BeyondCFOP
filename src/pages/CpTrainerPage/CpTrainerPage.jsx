@@ -385,6 +385,7 @@ export default function CpTrainerPage(){
                             permIndex={0}
                             cpEasyWanted={false}
                             cpSameOppWanted={!cpSameOpp}
+                            cpWanted={"cpEasy"}
                             barMovementWanted={false}
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
@@ -413,9 +414,11 @@ export default function CpTrainerPage(){
                             cpEasyWanted={false}
                             cpSameOppWanted={!cpSameOpp}
                             barMovementWanted={false}
+                            cpWanted={"cpEasy"}
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
                             cubeSizeFixed={true}
+                            view={"plan"}
                             />
                         }
                         </div>

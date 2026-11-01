@@ -389,6 +389,8 @@ export default function BarTrainer(){
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
                             cubeSizeFixed={true}
+                            view={"plan"}
+                            
                             />
                         }
                         </div>
@@ -416,6 +418,7 @@ export default function BarTrainer(){
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
                             cubeSizeFixed={true}
+                            view={"plan"}
                             />
                         }
                         </div>

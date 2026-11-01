@@ -34,7 +34,7 @@ import BarPersevationOverlay from "../../1OllBarInfo.jsx";
 
 
 
-export function LabsLastSlotButton({onClick,text,width}){
+export function LabsLastSlotButton({focus,onClick,text,width}){
 
 
 
@@ -48,11 +48,12 @@ export function LabsLastSlotButton({onClick,text,width}){
         width:width,
     }
 
+    console.log("Focu",focus)
     return(
         <>
         
        
-  <button onClick={()=>{onClick(text)}} className={`LabsLastSlotButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+  <button onClick={()=>{onClick(text)}} className={`${focus?"HighlightLabsLastSlotButton":""} LabsLastSlotButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                                    
                                    style={{
                                  

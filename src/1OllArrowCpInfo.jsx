@@ -1,6 +1,8 @@
 import { GetCentersPosition } from "./pages/BarPersevationPage/BarPersevationLogic";
-export default function arrowsInfoGen(oll,permIndex,cubeSize,cpEasyWanted,cpSameOppWanted){
+export default function arrowsInfoGen(oll,permIndex,cubeSize,cpWanted,cpEasyWanted,cpSameOppWanted){
 
+
+    console.log("NoArrow",cpWanted)
     let arrowsInfo=[]
 //     function GetCentersPosition(cubeSize){
  
@@ -278,8 +280,14 @@ function getEasyPath(Center1,Center2,cubeSize){
     return pathArrow
 }
 
-function getEasierRecognitionInfo(oll,index,arrowNumber,cubeSize){
+function getEasierRecognitionInfo(oll,index,arrowNumber,cubeSize,lowestPen){
     let infoList=oll.easierRecognition[0]
+    // let infoList
+
+    if(lowestPen){
+        infoList=oll.lowestPenaltyRecognition[0]
+    }
+    console.log("NewAlgLowestPen",infoList[index],index)
 
     let SpecificPermInfo=infoList[index]
 
@@ -308,7 +316,7 @@ function getEasierRecognitionInfo(oll,index,arrowNumber,cubeSize){
     let rotation=getEasyRotation(Center1,Center2,cubeSize)
     let pathArrow=getEasyPath(Center1,Center2,cubeSize)
 
-    return [rotation,pathArrow,color,arrowTipCoord]
+    return {rotation:rotation,path:pathArrow,color:color,arrowTipCoord:arrowTipCoord}
 
 
 
@@ -357,7 +365,47 @@ function getSameOppInfo(oll,index,arrowNumber,cubeSize){
 
     let arrowsInfoEasy=[]
     let arrowsInfoSameOpp=[]
-    if(cpEasyWanted){
+
+    // console
+    
+    if(cpWanted=="LowestPen"){
+        arrowsInfo=[
+            {
+            path: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize,true).path,
+            color: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize,true).color,
+            rotation: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize,true).rotation,
+            rotateX: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize,true).arrowTipCoord[0],
+            rotateY: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize,true).arrowTipCoord[1]
+            },
+            {
+            path: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize,true).path,
+            color: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize,true).color,
+            rotation: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize,true).rotation,
+            rotateX: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize,true).arrowTipCoord[0],
+            rotateY: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize,true).arrowTipCoord[1]
+            },
+        ]
+    }
+    else if(cpWanted=="EasierRec"){
+        arrowsInfo=[
+            {
+            path: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize).path,
+            color: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize).color,
+            rotation: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize).rotation,
+            rotateX: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize).arrowTipCoord[0],
+            rotateY: getEasierRecognitionInfo(oll,PermTable[permIndex],0,cubeSize).arrowTipCoord[1]
+            },
+            {
+            path: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize).path,
+            color: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize).color,
+            rotation: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize).rotation,
+            rotateX: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize).arrowTipCoord[0],
+            rotateY: getEasierRecognitionInfo(oll,PermTable[permIndex],1,cubeSize).arrowTipCoord[1]
+            },
+        ]
+    }
+    
+    else if(cpWanted=="cpEasy"){
         
         arrowsInfo=[
             {
@@ -376,7 +424,7 @@ function getSameOppInfo(oll,index,arrowNumber,cubeSize){
             }
         ]
     }
-    else if(cpSameOppWanted){
+    else if(cpWanted=="SameOpp"){
         
        arrowsInfo=[
             {
@@ -394,6 +442,7 @@ function getSameOppInfo(oll,index,arrowNumber,cubeSize){
             rotateY: getSameOppInfo(oll,PermTable[permIndex],1,cubeSize).rotateY,
             }]
         }
+    
 // console.log("ArrowsInfo",arrowsInfo,cpEasyWanted)
 return arrowsInfo
 }

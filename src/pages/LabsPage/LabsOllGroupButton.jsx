@@ -110,9 +110,11 @@ export function LabsOllAlgButton({onClick,cellNumber, ollNumber, algNumber, text
                         cpEasyWanted={false}
                         cpSameOppWanted={false}
                         barMovementWanted={false}
+                        cpWanted={"cpEasy"}
                         cubeSize={80}
                         labsPageTrue={true}
                         cubeSizeFixed={true}
+                        view={"plan"}
                         />
                                                             
                                                             </button>
@@ -152,7 +154,7 @@ export function LabsPllGroupButton({onClick, text}){
     )
 }
 
-export function LabsCellCopyNumber({cells,setCells,cellNumber,text}){
+export function LabsCellCopyNumber({focus,onClick,cells,setCells,cellNumber,text}){
  
 
 
@@ -166,25 +168,12 @@ export function LabsCellCopyNumber({cells,setCells,cellNumber,text}){
         width: "100px"
     }
 
-    const handleCopyClicked = (cellNumber, cellNumberToCopy)=>{
-        
-        console.log("Added5",cellNumber,cellNumberToCopy)
-        setCells((prev)=>{
-                
-                let newCells=[...prev]
-                
-                newCells[cellNumber]={...cells[cellNumberToCopy],   id: `cell-${cellNumber}`,
-        cellNumber: cellNumber,}
-                // newCells[cellNumber]=defaultCellInfo(cellNumber)
-                console.log("Added45",newCells)
-                return newCells})
-       
-    }
+    
     return(
         <>
         
        
-  <button onClick={()=>{handleCopyClicked(cellNumber,text)}} className={`LabsAlgCopyNumberButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
+  <button onClick={()=>{onClick(text,cellNumber)}} className={`${focus?"HighlightLabsLastSlotButton":""} LabsAlgCopyNumberButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                                    
                                    style={{
                                  

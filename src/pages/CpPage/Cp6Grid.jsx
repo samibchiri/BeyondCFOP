@@ -99,12 +99,14 @@ return (
                                                             oll={oll}
                                                             pll={CornerPermutations[PermTable[j]]}
                                                             permIndex={j}
-                                                            cpEasyWanted={cpEasyWanted}
-                                                            cpSameOppWanted={cpSameOppWanted}
+                                                            // cpEasyWanted={cpEasyWanted}
+                                                            // cpSameOppWanted={cpSameOppWanted}
+                                                            cpWanted={"cpEasy"}
                                                             barMovementWanted={false}
                                                             cubeSize={cubeSize}
                                                             setCubeSize={setCubeSize}
                                                             cubeSizeFixed={false}
+                                                            view={"plan"}
                                                             />
                                                     </div>
                                                     <div className='CpGridOverlay' style={{height:`${cubeSize*160/200}px`,width:`${cubeSize*160/200}px`,marginTop:`${-20+cubeSize/10}px`}}>

@@ -392,9 +392,11 @@ function ShowPllFullHint({alg,pll, cpEasyWanted, cpSameOpp, cubeSizeFixed, cubeS
                                         cpEasyWanted={cpEasyWanted}
                                         cpSameOppWanted={!cpSameOpp}
                                         barMovementWanted={false}
+                                        cpWanted={"cpEasy"}
                                         cubeSize={cubeSize}
                                         setCubeSize={setCubeSize}
                                         cubeSizeFixed={true}
+                                        view={"plan"}
                                         />
                                 </div>
                             
@@ -407,10 +409,12 @@ function ShowPllFullHint({alg,pll, cpEasyWanted, cpSameOpp, cubeSizeFixed, cubeS
                                         permIndex={1}
                                         cpEasyWanted={cpEasyWanted}
                                         cpSameOppWanted={!cpSameOpp}
+                                        cpWanted={"cpEasy"}
                                         barMovementWanted={false}
                                         cubeSize={cubeSize}
                                         setCubeSize={setCubeSize}
                                         cubeSizeFixed={true}
+                                        view={"plan"}
                                         />
                                 </div>
                             </div>

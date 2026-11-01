@@ -50,13 +50,22 @@ import useWindowDimensions from "../../hooks/useWindowDimensions.jsx";
 import { Inverse } from "../../dataGeneration/ArrowDataGenerator.jsx";
 
 
-export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWith,cubeSize,setCubeSize,oll, pll, LastSlotAlgs, shortGroupTable}){
+export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWith,setLinkedWith,cubeSize,setCubeSize,oll, pll, LastSlotAlgs, shortGroupTable}){
     
     console.log("LabsCellInfo",cells,setCells,cubeSize,setCubeSize,oll, LastSlotAlgs)
     
     const { darkMode } = useContext(ThemeContext)
         
     const mainDropdownRef = useRef(null);
+    const ollRecDropdownRef = useRef(null)
+    const copyDropDownRef = useRef(null);
+    const linkDropDownRef = useRef(null)
+
+    const currentLinkedWithRef = useRef({
+        "LastSlot":[],
+        "OLL":[],
+        "PLL":[]
+    })
 
     useEffect(() => {
     if (mainDropdownRef.current) {
@@ -67,8 +76,15 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
     const [ollRecognitionClicked,setOllRecognitionClicked] = useState(false)
     const [viewClicked,setViewClicked] = useState(false)
      const [viewGroupClicked, setViewGroupClicked]= useState(false)
-        
 
+    const [copyButtonClicked,setCopyButtonClicked] = useState(false)
+    const [linkButtonClicked,setLinkButtonClicked] = useState(false)
+
+    const [linkTypeToggle,setLinkTypeToggle] = useState("")
+    const [linkCelNumToggle,setLinkCelNumToggle] = useState("")
+
+    const [pllPermIndex,setPllPermIndex]= useState(0)
+ 
     const [lastSlotClicked,setLastSlotClicked] = useState(false)
     const [preOllAUFClicked,setPreOllAUFClicked] = useState(false)
     const [prePllAUFClicked,setPrePllAUFClicked] = useState(false)
@@ -113,8 +129,16 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
         }
 
         const AUFList=["No AUF", "U2", "U", "U'"]
+        
+        const AUFToPermIndexDict={
 
-        const PllList = [
+            "":2,
+            "U2":3,
+            "U":4,
+            "U'":5
+        }
+
+        const pllList = [
             "E",
             "Ua",
             "Ra",
@@ -179,7 +203,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
         let algToSolveList = []
 
         tempAlgsToSolveList.forEach((alg,i)=>{
-            if(alg!=""){
+            if(alg!==""){
                 console.log("AlgsSOlve",i)
                 if(i==0){
                     algToSolveList.push("Last Slot")
@@ -210,19 +234,24 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
         },[]
         );
 
+        let newLinkedWith=linkedWith
+        if(currentLinkedWithRef.current.length>0){
+            newLinkedWith=currentLinkedWithRef.current
+        }
 
-        const hideDropDown = () => {
-            console.log("HideDropdown",mainDropdownRef.current)
-            if (!mainDropdownRef.current) return;
 
-            Dropdown.getOrCreateInstance(mainDropdownRef.current).hide();
+        const hideDropDown = (Ref) => {
+            console.log("HideDropdown",Ref.current)
+            if (!Ref.current) return;
+
+            Dropdown.getOrCreateInstance(Ref.current).hide();
         };
 
-        const toggleDropDown = () => {
-            // console.log("ShowDropdown",mainDropdownRef.current)
-            if (!mainDropdownRef.current) return;
+        const toggleDropDown = (Ref) => {
+            console.log("ShowDropdown",Ref.current)
+            if (!Ref.current) return;
 
-            Dropdown.getOrCreateInstance(mainDropdownRef.current).toggle();
+            Dropdown.getOrCreateInstance(Ref.current).toggle();
         };
 
         const handleOutsideClick = () => {
@@ -253,23 +282,254 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
             const handleKeyPressed = (location)=>{
                 console.log("KeyPressed",location)
             }
+
+
+            const handleCopyClicked = (cellNumberToCopy,cellNumber)=>{
+                
+                console.log("Added5",cellNumber,cellNumberToCopy)
+                setCells((prev)=>{
+                        
+                        let newCells=[...prev]
+                        
+                        newCells[cellNumber]={...cells[cellNumberToCopy],   id: `cell-${cellNumber}`,
+                cellNumber: cellNumber,}
+                // newCells[cellNumber]=defaultCellInfo(cellNumber)
+                console.log("Added45",newCells)
+                return newCells})
+       
+    }
+
+            const handleLinkTypeClicked= (value)=>{
+                value = value.replace(/\s/g, "");
+                console.log("LinkTypeVal",value,linkedWith,linkedWith[value],linkCelNumToggle)
+            
+                    
+
+                if(linkCelNumToggle!==""){
+
+                    
+                        setLinkedWith((prev)=>{
+                            console.log("PrevCheck",linkCelNumToggle,value, prev,prev[value],)
+                            
+                            let prevValList=[...prev[value]]
+                            if(prevValList[0].includes(linkCelNumToggle) && !prevValList[0].includes(cellNumber)){
+
+                            
+                                prevValList[1].forEach((list,j)=>{
+                                        console.log("IfCheck",list,linkCelNumToggle,prevValList)
+                                        if(list.includes(linkCelNumToggle)){
+                                            prevValList[1][j]=[...prevValList[1][j],cellNumber]
+                                        }
+                                    }
+                                )
+                                prevValList[0].push(cellNumber)
+                            }
+                            if(prevValList[0].includes(cellNumber) && !prevValList[0].includes(linkCelNumToggle)){
+                                prevValList[1].forEach((list,j)=>{
+                                        console.log("IfCheck",list,linkCelNumToggle,prevValList)
+                                        if(list.includes(linkCelNumToggle)){
+                                            prevValList[1][j]=[...prevValList[1][j],linkCelNumToggle]
+                                            currentLinkedWithRef.current[value]=[[...list],value]
+                                        }
+                                    }
+                                )
+                                prevValList[0] = [...prevValList[0],linkCelNumToggle]
+                                
+                            }
+                            if(!prevValList[0].includes(cellNumber) && !prevValList[0].includes(linkCelNumToggle)){
+                                prevValList[0] = [...prevValList[0], cellNumber,linkCelNumToggle]
+                                prevValList[1] = [...prevValList[1],[cellNumber, linkCelNumToggle]
+                                ];
+                                 currentLinkedWithRef.current[value]=[[cellNumber,linkCelNumToggle],value]
+                            }
+                            
+                            let UpdatedList= {...prev,[value]:prevValList}
+                            console.log("NewUpdatedList",currentLinkedWithRef.current,UpdatedList)
+                            return UpdatedList
+
+                        })
+                    setLinkTypeToggle(value)
+                    setLinkCelNumToggle("")
+                    hideDropDown(linkDropDownRef)
+                    
+                }
+                else{
+                    console.log("LinkTypeToggleVal",value)
+                    setLinkTypeToggle(value)
+                }
+                
+            }
+
+
+            const handleLinkCelNumClicked= (value,num)=>{
+
+                
+                console.log("LinkTypeVal2",linkTypeToggle,value,num,linkedWith,linkedWith[linkTypeToggle])
+            
+                    
+
+                if(linkTypeToggle!==""){
+                    setLinkedWith((prev)=>{
+                            console.log("PrevCheck",linkTypeToggle,value, prev,prev[linkTypeToggle],)
+                            
+                            let prevValList=[...prev[linkTypeToggle]]
+                            if(prevValList[0].includes(value) && !prevValList[0].includes(cellNumber)){
+
+                            
+                                prevValList[1].forEach((list,j)=>{
+                                        console.log("IfCheck",list,value,prevValList)
+                                        if(list.includes(value)){
+                                            prevValList[1][j]=[...prevValList[1][j],cellNumber]
+                                        }
+                                    }
+                                )
+                                prevValList[0].push(cellNumber)
+                            }
+                            if(prevValList[0].includes(cellNumber) && !prevValList[0].includes(value)){
+                                prevValList[1].forEach((list,j)=>{
+                                        console.log("IfCheck",list,value,prevValList)
+                                        if(list.includes(value)){
+                                            prevValList[1][j]=[...prevValList[1][j],value]
+                                            currentLinkedWithRef.current[linkTypeToggle]=[[...list],linkTypeToggle]
+                                        }
+                                    }
+                                )
+                                prevValList[0] = [...prevValList[0],value]
+                                
+                            }
+                            if(!prevValList[0].includes(cellNumber) && !prevValList[0].includes(value)){
+                                prevValList[0] = [...prevValList[0], cellNumber,value]
+                                prevValList[1] = [...prevValList[1],[cellNumber, value]
+                                ];
+                                currentLinkedWithRef.current[linkTypeToggle]=[[cellNumber,value],linkTypeToggle]
+                            }
+                            
+                            let UpdatedList= {...prev,[linkTypeToggle]:prevValList}
+                            console.log("NewUpdatedList",UpdatedList)
+                            return UpdatedList
+
+                        })
+                        
+                    setLinkCelNumToggle("")
+                    hideDropDown(linkDropDownRef)
+
+                }
+                else{
+                    console.log("LinkCelNumToggleV",value,num)
+                    setLinkCelNumToggle(value)
+                }
+            }
+
+             let OllRecDict={
+                    cpEasy:"Cp Easy",
+                    SameOpp: "Cp Same Opp",
+                    EasierRec:"Cp Adjacent",
+                    LowestPen:"Cp Lowest Pen",
+                    "Bar Movement": "Bar Movement"
+                }
+
+            const ChangeOLLRec = (ollRec)=>{
+
+                console.log("OllRec7",ollRec)
+                if(cells[cellNumber].view=="plan"){
+
+                
+                if(ollRec=="Nothing"){
+                    ollRec=""
+                }
+                else if(ollRec =="Cp Easy"){
+                    ollRec="cpEasy"
+                }
+                else if (ollRec == "Cp Same Opp"){
+                    ollRec= "SameOpp"
+                }
+                else if(ollRec =="Cp Adjacent"){
+                    ollRec="EasierRec"
+                }
+                else if(ollRec=="Cp Lowest Pen"){
+                    ollRec="LowestPen"
+                }
+                }
+
+               
+                
+                setCells((prev)=>{
+                    
+                    let newCells=[...prev]
+                    newCells[cellNumber].ollRec=ollRec
+
+                    return newCells
+                }    
+            )
+            setOllRecognitionClicked(prev=>!prev)
+            console.log("CellsCelNum",cells[cellNumber])
+            }
+
+
+            const updatePllPermIndex = (newPllName,prePllAUF)=>{
+                console.log("NewPLLName",newPllName,prePllAUF)
+                if(prePllAUF=="No AUF"){
+                    prePllAUF=""
+                }
+
+                let pllIndex=pllList.findIndex((pllName)=>pllName==newPllName)
+                    let tempPllPermIndex=0
+                    // console.log("PermIndex2",pllList,pllIndex%5,newPLL)
+                    if(pllIndex%5==1){
+                        tempPllPermIndex=0
+                    }
+                    else if(pllIndex%5==0){
+                        tempPllPermIndex=1
+                    }
+                    else{
+                        // console.log("PrePLLCheck2",cells[cellNumber].prePllAUFSetup,AUFToPermIndexDict[cells[cellNumber].prePllAUFSetup],AUFToPermIndexDict)
+                        tempPllPermIndex=AUFToPermIndexDict[prePllAUF]
+                    }
+                setPllPermIndex(tempPllPermIndex)
+                return tempPllPermIndex
+            }
+
             const handleLastSlotSetupClicked = (value)=>{
 
 
                 let newLastSlotSetupAlg=value
 
-                console.log("CheckGrid",cells[cellNumber],cells[cellNumber].gridNumber)
+                console.log("CheckGrid",celltype,currentLinkedWithRef.current,linkedWith,cells[cellNumber],cells[cellNumber].gridNumber)
                 
-                if(cells[cellNumber].linkedHead==true && linkedWith[1]=="LastSlot"){
+                if(celltype=="2Grid"){
+                    if(linkedWith["LastSlot"][0].includes(cellNumber)){
+                    linkedWith["LastSlot"][1].forEach((list)=>{
+                        if(list.includes(cellNumber)){
+                            console.log("UpdatedLinkedWithRef",[list,"LastSlot"])
+                            currentLinkedWithRef.current["LastSlot"]=[[...list],"LastSlot"]
+                        }
+                    })
+                    newLinkedWith=currentLinkedWithRef.current["LastSlot"]
+                }
+                }
+                
+                
+                console.log("CheckGrid2",cells[cellNumber],newLinkedWith,currentLinkedWithRef.current["LastSlot"],currentLinkedWithRef.current)
+                
+                
+                if(cells[cellNumber].linkedHead==true && newLinkedWith[1]=="LastSlot"){
                     console.log("LinkedWith",linkedWith, cells[cellNumber])
                     setCells((prev)=>{
                     
                     let newCells=[...prev]
                     
-                    for(let i=0;i<6;i++){
-                        console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                        newCells[cellNumber+i].lastSlotAlgSetup=value
-                        newCells[cellNumber+i].lastSlotAlgSolve=lastSlotSetupLinkedDict[value][i]
+                    for(let j=0;j<newLinkedWith[0].length;j++){
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            let i=newLinkedWith[0][j]
+                        console.log("CellNumberLastSlot",value,celltype,cellNumber,i,lastSlotSetupLinkedDict[value])
+                        newCells[i].lastSlotAlgSetup=value
+                        if(celltype=="LastSlot" &&lastSlotSetupLinkedDict[value]){
+                            newCells[i].lastSlotAlgSolve=lastSlotSetupLinkedDict[value][j]
+                        }
+                        else{
+                            newCells[i].lastSlotAlgSolve=value
+                        }
+                        
                     }
                     
                     
@@ -288,6 +548,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 })
                 }
                 
+                setLastSlotClicked(false)
             
             }
 
@@ -300,12 +561,20 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                     if(value=="Last Layer"){
                         newView="plan"
                     }
+                    else{
+                        setCells(prev=>{
+                            let NewCells=[...prev]
+                            NewCells[cellNumber].ollRec= ""
+                            return NewCells
+                        })
+                    }
                     newCells[cellNumber].view=newView
                     
                     return newCells
                 })
                 setViewGroupClicked(false)
-                hideDropDown()
+                setViewClicked(false)
+                hideDropDown(mainDropdownRef)
             }
 
             const handleCrossColorClicked =(value)=>{
@@ -320,14 +589,14 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                     return newCells
                 })
                 setViewGroupClicked(false)
-                hideDropDown()
+                hideDropDown(mainDropdownRef)
             }
         
             const handlePreOLLSetupClicked = (value)=>{
                 
                 
-                if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="LastSlot"||linkedWith[1]=="OLL" ||linkedWith[1]=="PLL")){
-                    console.log("LinkedWith",linkedWith, cells[cellNumber])
+                if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="LastSlot"||newLinkedWith[1]=="OLL" ||newLinkedWith[1]=="PLL")){
+                    console.log("LinkedWith",newLinkedWith, cells[cellNumber])
                     setCells((prev)=>{
                     
                     let newCells=[...prev]
@@ -336,8 +605,10 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         value=""
                     }
 
-                    for(let i=0;i<6;i++){
-                        newCells[cellNumber+i].preOllAUFSetup=value
+                    for(let j=0;j<newLinkedWith[0].length;j++){
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            let i=newLinkedWith[0][j]
+                        newCells[j].preOllAUFSetup=value
                     }
                     
                     return newCells
@@ -358,6 +629,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 })
                 }
                 
+                setPreOllAUFClicked(false)
 
                 
             }
@@ -376,17 +648,21 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 if(value==null){
                     // OllNumber/AlgNumber is null if No Oll
                     // console.log("ResetOLL",value,ollNumber,algNumber)
+                    
+                    
 
-                    if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="LastSlot"||linkedWith[1]=="OLL" ||linkedWith[1]=="PLL")){
-                        // console.log("LinkedWith",linkedWith, cells[cellNumber])
+                    if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="LastSlot"||newLinkedWith[1]=="OLL" ||newLinkedWith[1]=="PLL")){
+                        console.log("LinkedWithOll",newLinkedWith[1], cells[cellNumber])
                         setCells((prev)=>{
                         
                         let newCells=[...prev]
                         
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].ollAlgSetupNumber=null
-                            newCells[cellNumber+i].ollAlgNumber=null
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[j].ollAlgSetupNumber=null
+                            newCells[j].ollAlgNumber=null
                         }
                         
                         return newCells
@@ -426,18 +702,34 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
 
               const handleOLLSetupClicked3 = (cellNumber,ollNumber,algNumber)=>{
                 
-                console.log("LinkedWithOLL2",linkedWith, cells[cellNumber])
-                if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="LastSlot"||linkedWith[1]=="OLL"|| linkedWith[1]=="PLL")){
-                        console.log("LinkedWithOLL",linkedWith, cells[cellNumber])
+                console.log("LinkedWithOLL2",linkTypeToggle,cells[cellNumber].linkedHead,newLinkedWith,newLinkedWith[1], newLinkedWith[1]=="OLL",cells[cellNumber])
+                if(celltype=="2Grid"&&linkTypeToggle!=""){
+                    if(linkedWith[linkTypeToggle][0].includes(cellNumber)){
+                    linkedWith[linkTypeToggle][1].forEach((list)=>{
+                        if(list.includes(cellNumber)){
+                            console.log("UpdatedLinkedWithRefOLL",[list,"OLL"],linkTypeToggle)
+                            currentLinkedWithRef.current[linkTypeToggle]=[[...list],linkTypeToggle]
+                        }
+                    })
+                    console.log("UpdateNewLinkedWith",currentLinkedWithRef.current)
+                    newLinkedWith=currentLinkedWithRef.current[linkTypeToggle]
+                }
+                }
+
+                console.log("OLLChecks",cells[cellNumber].linkedHead,newLinkedWith)
+                if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="LastSlot"||newLinkedWith[1]=="OLL"|| newLinkedWith[1]=="PLL")){
+                        console.log("LinkedWithOLL",newLinkedWith,newLinkedWith[0], cells[cellNumber])
                         setCells((prev)=>{
                         
                         let newCells=[...prev]
-                        
-                        for(let i=0;i<6;i++){
+                    
+
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].ollAlgSetupNumber=ollNumber
-                            newCells[cellNumber+i].ollAlgNumber=algNumber
-                            if(linkedWith[1]=="PLL"){
+                            let i=newLinkedWith[0][j]
+                            newCells[i].ollAlgSetupNumber=ollNumber
+                            newCells[i].ollAlgNumber=algNumber
+                            if(newLinkedWith[1]=="PLL"){
                                 if(i>1){
                                     const specificOLLDB = dbOllCaseSet?.filter((alg)=>alg.ollNumber==cells[cellNumber].ollAlgSetupNumber)
         
@@ -455,9 +747,9 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                         if(algNumber==1){
                                             altOLL = specificOLLDB?.[0].algs
                            
-                                            newCells[cellNumber+i].ollAlgSolve=altOLL
+                                            newCells[i].ollAlgSolve=altOLL
                                             if(specificOLLDB?.[0].altAUF.length>0){
-                                                newCells[cellNumber+i].preOllAUFSetup=specificOLLDB?.[0].altAUF[0]
+                                                newCells[i].preOllAUFSetup=specificOLLDB?.[0].altAUF[0]
                                             }
                                             
                                         }
@@ -465,15 +757,15 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                             if(1< specificOLLDB?.length ){
                                                 altOLL = specificOLLDB?.[1].algs
                                                 
-                                                newCells[cellNumber+i].ollAlgSolve=altOLL
+                                                newCells[i].ollAlgSolve=altOLL
                                                 if(specificOLLDB?.[1].altAUF.length>0){
-                                                newCells[cellNumber+i].preOllAUFSetup=specificOLLDB?.[1].altAUF[0]
+                                                newCells[i].preOllAUFSetup=specificOLLDB?.[1].altAUF[0]
                                             }
                                             }
                                             else{
                                                 altOLL = specificOLLDB?.[0].algs
                                                 console.log("NOAltOLL",altOLL)
-                                                newCells[cellNumber+i].ollAlgSolve=""
+                                                newCells[i].ollAlgSolve=""
                                             }
                                             
                                         }
@@ -513,8 +805,8 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 
             const handlePrePLLSetupClicked = (value)=>{
                 
-                if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="OLL"|| linkedWith[1]=="PLL")){
-                        console.log("LinkedWithOLL",linkedWith, cells[cellNumber])
+                if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="OLL"|| newLinkedWith[1]=="PLL")){
+                        console.log("LinkedWithOLL",newLinkedWith, cells[cellNumber])
                         setCells((prev)=>{
                         
                         let newCells=[...prev]
@@ -522,9 +814,11 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         if(value=="No AUF"){
                             value=""
                         }
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].prePllAUFSetup=value
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].prePllAUFSetup=value
                         }
                         
                         return newCells
@@ -541,11 +835,16 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                     }
 
                     newCells[cellNumber].prePllAUFSetup=value
+                    
 
 
                     return newCells
                 })
+                updatePllPermIndex(cells[cellNumber].pllName,value)
+                
                 }
+
+                setPrePllAUFClicked(false)
 
                 
             }
@@ -562,13 +861,30 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 
             }
             const handlePLLSetupClicked2 = (value)=>{
+
+                 console.log("LinkedWithPLL2",cells[cellNumber].linkedHead,newLinkedWith,newLinkedWith[1], newLinkedWith[1]=="OLL",cells[cellNumber])
+                
+
                 console.log("PLLClickedSetup2",pllCaseSet,value)
                 pllCaseSet.cases.forEach((pll)=>{
                     console.log("JbError",pll.name,pll.name.split(" ")[0],pll.name.split(" ")[0]=="Ub")
                 })
 
-                if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="OLL")){
-                        console.log("LinkedWithOLL",linkedWith, cells[cellNumber])
+                if(celltype=="2Grid" && linkTypeToggle!=""){
+                    if(linkedWith[linkTypeToggle][0].includes(cellNumber)){
+                    linkedWith[linkTypeToggle][1].forEach((list)=>{
+                        if(list.includes(cellNumber)){
+                            console.log("UpdatedLinkedWithRefOLL",[list,"OLL"],linkTypeToggle)
+                            currentLinkedWithRef.current[linkTypeToggle]=[[...list],linkTypeToggle]
+                        }
+                    })
+                    console.log("UpdateNewLinkedWith",currentLinkedWithRef.current)
+                    newLinkedWith=currentLinkedWithRef.current[linkTypeToggle]
+                }
+                }
+
+                if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="OLL")){
+                        console.log("LinkedWithOLL",newLinkedWith, cells[cellNumber])
                         if(value=="No pll"){
                         setCells((prev)=>{
                         
@@ -576,29 +892,35 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         
                         newCells[cellNumber].pllAlgSetup=""
                         console.log("Updated25",newCells)
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].pllAlgSetup=""
-                            newCells[cellNumber+i].pllName=""
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].pllAlgSetup=""
+                            newCells[i].pllName=""
+                            newCells[i].pllPermIndex=0
                         }
                         setPllGroupClicked(false)
-                        hideDropDown()
+                        hideDropDown(mainDropdownRef)
                         return newCells
                     })
 
                     }
                     let newPLL = pllCaseSet.cases.find((pll)=>pll.name.split(" ")[0]==value)
                     
+                    console.log("PermIndex",pllList,pllPermIndex.current,newPLL)
                     let pllAlg= newPLL.algs[0]
                     
                         setCells((prev)=>{
                         
                         let newCells=[...prev]
   
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].pllAlgSetup=pllAlg
-                            newCells[cellNumber+i].pllName=newPLL.name.split(" ")[0]
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].pllAlgSetup=pllAlg
+                            newCells[i].pllName=newPLL.name.split(" ")[0]
                         }
                         
                         return newCells
@@ -607,9 +929,9 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 }
                 else{
                     
-                    if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="PLL")){
+                    if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="PLL")){
                     
-                            console.log("LinkedWithOLL",linkedWith, cells[cellNumber])
+                            console.log("LinkedWithOLL",newLinkedWith, cells[cellNumber])
                         if(value=="No pll"){
                         setCells((prev)=>{
                         
@@ -617,13 +939,15 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         
                         newCells[cellNumber].pllAlgSetup=""
                         console.log("Updated25",newCells)
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].pllAlgSetup=""
-                            newCells[cellNumber+i].pllName=""
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].pllAlgSetup=""
+                            newCells[i].pllName=""
                         }
                         setPllGroupClicked(false)
-                        hideDropDown()
+                        hideDropDown(mainDropdownRef)
                         return newCells
                     })
 
@@ -636,13 +960,15 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         
                         let newCells=[...prev]
   
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].pllAlgSetup=pllAlg
-                            newCells[cellNumber+i].pllName=newPLL.name.split(" ")[0]
-                            if(i>2){
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].pllAlgSetup=pllAlg
+                            newCells[+i].pllName=newPLL.name.split(" ")[0]
+                            if(j>2){
                                 console.log("AUFList",AUFList[i-2])
-                                newCells[cellNumber+i].prePllAUFSetup=AUFList[i-2]
+                                newCells[i].prePllAUFSetup=AUFList[i-2]
                             }
                             
                         }
@@ -658,57 +984,43 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         
                         newCells[cellNumber].pllAlgSetup=""
                         newCells[cellNumber].pllName=""
+                        newCells[cellNumber].pllPermIndex=0
                         console.log("Updated25",newCells)
                         setPllGroupClicked(false)
-                        hideDropDown()
+                        hideDropDown(mainDropdownRef)
                         return newCells
                     })
 
                     }
-                    let pll = pllCaseSet.cases.find((pll)=>pll.name.split(" ")[0]==value)
+                    let newPLL = pllCaseSet.cases.find((pll)=>pll.name.split(" ")[0]==value)
+                    // pllPermIndex.current=pllCaseSet.cases.findIndex((pll)=>pll.name.split(" ")[0]==value)
                     
-                    let pllAlg= pll.algs[0]
+                    let pllAlg= newPLL.algs[0]
 
                     console.log("PLLAlg",pllAlg)
+                    let tempPllPermIndex= updatePllPermIndex(value,cells[cellNumber].prePllAUFSetup)
                     setCells((prev)=>{
                         
                         let newCells=[...prev]
                         
                         newCells[cellNumber].pllAlgSetup=pllAlg
-                        newCells[cellNumber].pllName=pll.name.split(" ")[0]
+                        newCells[cellNumber].pllName=newPLL.name.split(" ")[0]
+                        newCells[cellNumber].pllPermIndex=tempPllPermIndex
                         console.log("Updated5",newCells)
                         return newCells
                     })
+                    
 
                 }
                 setPllGroupClicked(false)
-                hideDropDown()
+                hideDropDown(mainDropdownRef)
             }
 
-            const handlePLLSetupClicked3 = (cellNumber,ollNumber,algNumber)=>{
-                
-                setCells((prev)=>{
-                    
-                    let newCells=[...prev]
-                    
-                    newCells[cellNumber].ollAlgSetupNumber=ollNumber
-                    newCells[cellNumber].ollAlgNumber=algNumber
-                    
-                    console.log("Updated5",newCells,ollNumber,algNumber)
-                    return newCells
-                })
-              
-              setOllGroupClicked(false)
-                }
-
-            const handlePLLClicked = (value)=>{
-                console.log("ClickedSetup",value)
-            }
         
             const handlePostPLLSetupClicked = (value)=>{
                 
-                if(cells[cellNumber].linkedHead==true && (linkedWith[1]=="OLL")){
-                        console.log("LinkedWithOLL",linkedWith, cells[cellNumber])
+                if(cells[cellNumber].linkedHead==true && (newLinkedWith[1]=="OLL"|| newLinkedWith[1]=="PLL")){
+                        console.log("LinkedWithOLL",newLinkedWith, cells[cellNumber])
                         setCells((prev)=>{
                         
                         let newCells=[...prev]
@@ -716,9 +1028,11 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                         if(value=="No AUF"){
                             value=""
                         }
-                        for(let i=0;i<6;i++){
+                        for(let j=0;j<newLinkedWith[0].length;j++){
                             // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
-                            newCells[cellNumber+i].postPllAUFSetup=value
+                            let i=newLinkedWith[0][j]
+                            // console.log("CellNumberLastSlot",cellNumber,i,lastSlotSetupLinkedDict[value][i],lastSlotSetupLinkedDict[value])
+                            newCells[i].postPllAUFSetup=value
                         }
                         
                         return newCells
@@ -740,6 +1054,8 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                 
                 })
                 }
+
+                setPostPllAUFClicked(false)
 
                 
             }
@@ -820,8 +1136,42 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                     let newCells=[...prev]
                     
                     newCells[cellNumber].hidden=true
+                    if(celltype=="2Grid"){
+                        removeLink("LastSlot")
+                        removeLink("OLL")
+                        removeLink("PLL")
+                    }
                     // console.log("Deleted2",newCells,cellNumber,(!newCells[cellNumber].hidden))
                     return newCells})
+            }
+
+            const removeLink = (LinkType)=>{
+                
+
+                currentLinkedWithRef.current[LinkType]=[]
+
+                if(celltype=="2Grid"){
+                    setLinkedWith((prev)=>{
+                        let linkNumbers=[...prev[LinkType][0]]
+                        let linkList=prev[LinkType][1].map(list=>
+                                list.filter(item=> item!=cellNumber))
+                                .filter(list=>list.length>1)
+
+                                // linkList=[...prev[LinkType][1][i].filter(item => item !==cellNumber)]
+                                // linkList=linkList.filter(list=> list.length>0)
+                                // prev[LinkType][1][i]=linkList
+                            
+                        
+                        linkNumbers=linkNumbers.filter(item => item !==cellNumber)
+                        if(linkNumbers.length<=1){
+                            linkNumbers=[]
+                        }
+                        let updatedDict={...prev,[LinkType]:[linkNumbers,linkList]}
+                        console.log("RemoveTempList",updatedDict,linkNumbers)
+                        return updatedDict
+                    })
+                }
+
 
             }
         
@@ -877,16 +1227,17 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
         const specificOLLDB = dbOllCaseSet?.filter((alg)=>alg.ollNumber==cells[cellNumber].ollAlgSetupNumber)
         
 
-        console.log("Cells6",cells,specificOLLDB,dbOllCaseSet,cells[cellNumber].ollAlgSetupNumber,cells[cellNumber].ollAlgNumber)
 
         let alg = ""
         let tempOllAlg = ""
+        let tempOll=""
 
         console.log("Check",specificOLLDB,specificOLLDB?.length, cells[cellNumber].ollAlgNumber)
         console.log("Check2",0< specificOLLDB?.length, cells[cellNumber].ollAlgNumber< specificOLLDB?.length , cells[cellNumber].ollAlgNumber!=="")
         if(0< specificOLLDB?.length && cells[cellNumber].ollAlgNumber< specificOLLDB?.length && cells[cellNumber]?.ollAlgNumber!=="" ){
             console.log("NewAlg2",specificOLLDB, cells[cellNumber]?.ollAlgNumber)
-            tempOllAlg = specificOLLDB?.[cells[cellNumber]?.ollAlgNumber]?.algs
+            tempOll=specificOLLDB?.[cells[cellNumber]?.ollAlgNumber]
+            tempOllAlg = tempOll.algs
             console.log("NewAlg",tempOllAlg, oll,cellNumber)
         }
         else{
@@ -906,6 +1257,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
             "Green":"x"
         }
         let crossColorRotation=""
+         console.log("Cells67",tempOll,oll,cells,specificOLLDB,dbOllCaseSet,cells[cellNumber].ollAlgSetupNumber,cells[cellNumber].ollAlgNumber)
         console.log("BadRotation",crossColorRotationDict[cells[cellNumber].crossColor],cells[cellNumber].crossColor)
         // alg =  cells[cellNumber].lastSlotAlgSetup+tempOllAlg
         // console.log("InverseTest",cells[cellNumber].lastSlotAlgSolve,Inverse(cells[cellNumber].lastSlotAlgSolve))
@@ -916,6 +1268,8 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
             +Inverse(cells[cellNumber].lastSlotAlgSetup)+ Inverse(cells[cellNumber].preOllAUFSetup)+tempOllAlg+ Inverse(cells[cellNumber].prePllAUFSetup)
                 +cells[cellNumber].pllAlgSetup+ Inverse(cells[cellNumber].postPllAUFSetup)
                 +crossColorRotationDict[cells[cellNumber].crossColor]
+        
+        let newPermIndex=cells[cellNumber].pllPermIndex
     return (
         <div className="LabsCell">
                                     <div className="LabsTrashButtonCont">
@@ -934,8 +1288,12 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                       <li className='nav-item dropdown ms-ltr-5 list-unstyled'>
                                             
                                             
-                                            <button className={`LabsCopyButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}
-                                             data-bs-toggle="dropdown"
+                                            <button onClick={()=>setLastSlotClicked((prev)=>!prev)}className={`LabsCopyButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}
+                                                 ref={copyDropDownRef}
+                                                onClick={()=>toggleDropDown(copyDropDownRef)}
+                                                id={`navbarDropdown-${cellNumber}`}
+                                                type="button"
+                                                data-bs-toggle="dropdown"
                                                 aria-expanded="false"
                                                 data-bs-auto-close="outside"
                                                 >
@@ -949,8 +1307,12 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
         
                                                 <li className="LabsCellCopyNumberCont">
                                                     {cells.map((cell)=>
-                                                        
-                                                        <LabsCellCopyNumber cells={cells} setCells={setCells} cellNumber={cellNumber} text={cell.cellNumber}></LabsCellCopyNumber>
+                                                        {
+                                                            if(cellNumber!=cell.cellNumber && !unlinkable.includes(cell.cellNumber)&& cell.hidden==false){
+                                                                return <LabsCellCopyNumber onClick={handleCopyClicked} cells={cells} setCells={setCells} cellNumber={cellNumber} text={cell.cellNumber}></LabsCellCopyNumber>
+                                                            }
+                                                        }
+                                                       
                                                     )
 
                                                     }
@@ -973,15 +1335,20 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                             </li>
                                             </ul>
                                             </div>
-                                            {linkedWith.length==0 &&<div className='navbar-nav ms-auto'>
+                                            {!unlinkable.includes(cellNumber) &&<div className='navbar-nav ms-auto'>
                                                     <ul className="navbar-nav">
                                                       <li className='nav-item dropdown ms-ltr-5 list-unstyled'>
                                             
                                             
                                             <button className={`LabsLinkButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}
-                                             data-bs-toggle="dropdown"
+                                             ref={linkDropDownRef}
+                                                onClick={()=>toggleDropDown(linkDropDownRef)}
+                                                id={`navbarDropdown-${cellNumber}`}
+                                                type="button"
+                                                data-bs-toggle="dropdown"
                                                 aria-expanded="false"
                                                 data-bs-auto-close="outside"
+                                                
                                                 >
                                                 <FaIcon icon="link"></FaIcon>
                                             </button>
@@ -990,11 +1357,11 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         <h4 className="LabsCellCopyNumberHeader">Which part <br></br>to link? <button className="LabsHintChainButton"><FaIcon icon="question"></FaIcon></button></h4>
                                                          
                                            
-                                                    <LabsLastSlotButton text={`Last Slot`}></LabsLastSlotButton>
+                                                    <LabsLastSlotButton focus={linkTypeToggle=="Last Slot"} onClick={handleLinkTypeClicked} text={`Last Slot`}></LabsLastSlotButton>
                                                     <div style={{marginTop:"10px"}}></div>
-                                                    <LabsLastSlotButton text={"Oll"}></LabsLastSlotButton>
+                                                    <LabsLastSlotButton focus={linkTypeToggle=="OLL"} onClick={handleLinkTypeClicked} text={"OLL"}></LabsLastSlotButton>
                                                     <div style={{marginTop:"10px"}}></div>
-                                                    <LabsLastSlotButton text={"Pll"}></LabsLastSlotButton>
+                                                    <LabsLastSlotButton focus={linkTypeToggle=="PLL"} onClick={handleLinkTypeClicked} text={"PLL"}></LabsLastSlotButton>
 
         
                                                 </div>
@@ -1007,18 +1374,15 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                 </li>
         
                                                 <li className="LabsCellCopyNumberCont">
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
-              
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
-        
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
                                                     
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
-        
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
-        
-                                                    <LabsCellCopyNumber text={"111"}></LabsCellCopyNumber>
-                                                                   
+                                                 {cells.map((cell)=>{
+                                                        if(cellNumber!=cell.cellNumber && !unlinkable.includes(cell.cellNumber) && cell.hidden===false){
+                                                           console.log("WhyWrong",linkCelNumToggle,cell,cell.hidden)
+                                                         return <LabsCellCopyNumber focus={linkCelNumToggle===cell.cellNumber} onClick={handleLinkCelNumClicked} cells={cells} setCells={setCells} cellNumber={cellNumber} text={cell.cellNumber}></LabsCellCopyNumber>
+                                                        }}
+                                                    )
+
+                                                    }          
                                             </li>
         
         
@@ -1036,7 +1400,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                       <li className='nav-item dropdown ms-ltr-5 list-unstyled'>
                                             <button className={`LabsInfoButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}  
                                                 ref={mainDropdownRef}
-                                                onClick={toggleDropDown}
+                                                onClick={()=>toggleDropDown(mainDropdownRef)}
                                                 id={`navbarDropdown-${cellNumber}`}
                                                 type="button"
                                                 data-bs-toggle="dropdown"
@@ -1046,26 +1410,28 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                             >
                                                 
                                             </button>
+                                            
                                                         <ul className={`LabsDropDownMenu dropdown-menu`} aria-labelledby={`navbarDropdown-${cellNumber}`}>
                                                         <li  className="dropdown LabsNestedDropdown">
         
                                                             <button onClick={()=>setOllRecognitionClicked((prev)=>!prev)}className="dropdown-item LabsDropDownItem dropdown-toggle"
                                                         type="button"
-                                                        data-bs-toggle="dropdown"
+                                                        // data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Oll Recognition</button>
+                                                        >Oll Recognition {cells[cellNumber].ollRec!=""?`(${OllRecDict?.[cells[cellNumber].ollRec]})`:""}</button>
+                                                        
         
                     
                                                       {/* <div  className="dropdown-menu LabsLastSlotGroupCont" > */}
                                                             <div style={{display: ollRecognitionClicked ? "grid" : "none"}} className="LabsLastSlotGroupMenu">
                                                                
                                                                                                                            
-                                                               <LabsLastSlotButton text={"Nothing"}></LabsLastSlotButton>
-                                                               <LabsLastSlotButton text={"Bar Movement"}></LabsLastSlotButton>
-                                                                <LabsLastSlotButton text={"Cp Easy"}></LabsLastSlotButton>
-                                                               <LabsLastSlotButton text={"Cp Same Opp"}></LabsLastSlotButton>
-                                                           
-                                                           <LabsLastSlotButton text={"Cp Lowest Pen"}></LabsLastSlotButton>
+                                                               <LabsLastSlotButton onClick={ChangeOLLRec} text={"Nothing"}></LabsLastSlotButton>
+                                                               <LabsLastSlotButton onClick={ChangeOLLRec} text={"Bar Movement"}></LabsLastSlotButton>
+                                                                <LabsLastSlotButton onClick={ChangeOLLRec} text={"Cp Easy"}></LabsLastSlotButton>
+                                                               <LabsLastSlotButton onClick={ChangeOLLRec} text={"Cp Same Opp"}></LabsLastSlotButton>
+                                                                <LabsLastSlotButton onClick={ChangeOLLRec} text={"Cp Adjacent"}></LabsLastSlotButton>
+                                                                <LabsLastSlotButton onClick={ChangeOLLRec} text={"Cp Lowest Pen"}></LabsLastSlotButton>
                                                            
                                                            </div>
                                                                   
@@ -1116,7 +1482,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                     
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Last Slot {`${cells[cellNumber].lastSlotAlgSetup!=""?`(${cells[cellNumber].lastSlotAlgSetup})` :""}`}</button>
+                                                        >Last Slot {`${cells[cellNumber].lastSlotAlgSetup!==""?`(${cells[cellNumber].lastSlotAlgSetup})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
                                                                 {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
                                                                 <div style={{display: lastSlotClicked ? "flex" : "none"}} className="flex-column">
@@ -1131,7 +1497,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                         data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Last Slot {`${cells[cellNumber]?.lastSlotAlgSetup!=""?cells[cellNumber]?.lastSlotAlgSetup:""}`}</button>
+                                                        >Last Slot {`${cells[cellNumber]?.lastSlotAlgSetup!==""?cells[cellNumber]?.lastSlotAlgSetup:""}`}</button>
                                                         {console.log("WTF",lastSlotClicked,ollRecognitionClicked)}
                                                         <div style={{display: lastSlotClicked ? "block" : "none"}} className="dropdown-menu LabsLastSlotGroupCont" >
                                                             
@@ -1181,7 +1547,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                         data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Pre-OLL AUF {`${cells[cellNumber].preOllAUFSetup!=""?`(${cells[cellNumber].preOllAUFSetup})` :""}`}</button>
+                                                        >Pre-OLL AUF {`${cells[cellNumber].preOllAUFSetup!==""?`(${cells[cellNumber].preOllAUFSetup})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
                                                                 {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
                                                                 {/* <div style={{display: lastSlotClicked ? "flex" : "none"}} className="flex-column"> */}
@@ -1194,7 +1560,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                     
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Last Slot {`${cells[cellNumber].ollAlgSetupNumber!=""?`(OLL ${cells[cellNumber].ollAlgSetupNumber}-${cells[cellNumber].ollAlgNumber})` :""}`}</button>
+                                                        >Last Slot {`${cells[cellNumber].ollAlgSetupNumber!==""?`(OLL ${cells[cellNumber].ollAlgSetupNumber}-${cells[cellNumber].ollAlgNumber})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
                                                                 {/* {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
                                                                 <div style={{display: lastSlotClicked ? "flex" : "none"}} className="flex-column">
@@ -1219,9 +1585,9 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                     
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >OLL Group {`${cells[cellNumber].ollAlgSetupNumber!=""&&cells[cellNumber].ollAlgSetupNumber?`(OLL ${cells[cellNumber].ollAlgSetupNumber}-${cells[cellNumber].ollAlgNumber})` :""}`}</button>
+                                                        >OLL Group {`${cells[cellNumber].ollAlgSetupNumber!==""&&cells[cellNumber].ollAlgSetupNumber?`(OLL ${cells[cellNumber].ollAlgSetupNumber}-${cells[cellNumber].ollAlgNumber})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
-                                                                {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
+                                                                {/* {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")} */}
                                                                 <div style={{display:`${ollGroupClicked=="Group"?"grid":"none"}`}} className="LabsOLLGroupMenu">
                                                                     {/* <button  className={`LabsGroupButton ${darkMode ? "btn-dark border-3 btn-back-dark" : "btn-secondary border-3 border-dark btn-back-light"} border border-2 btn `}
                                            
@@ -1239,7 +1605,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                                     >Group 1</button> */}
                                                                     {Object.entries(shortGroupTable).map(([i, group]) => {
                                                                         let GroupNumber= Number(i)+1
-                                                                        console.log("GroupNum",group, i,GroupNumber)
+                                                                        // console.log("GroupNum",group, i,GroupNumber)
                                                                         return <LabsOllGroupButton onClick={handleOLLSetupClicked2} text={`Group ${GroupNumber}`} subtext={group}></LabsOllGroupButton>
                                                                     })}
                                                                     
@@ -1319,7 +1685,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                         data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Pre-PLL AUF {`${cells[cellNumber].prePllAUFSetup!=""?`(${cells[cellNumber].prePllAUFSetup})` :""}`}</button>
+                                                        >Pre-PLL AUF {`${cells[cellNumber].prePllAUFSetup!==""?`(${cells[cellNumber].prePllAUFSetup})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
                                                                 {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
                                                                 {/* <div style={{display: lastSlotClicked ? "flex" : "none"}} className="flex-column"> */}
@@ -1341,7 +1707,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                         data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >PLL Group {cells[cellNumber].pllName!=""?`(${cells[cellNumber].pllName})`:""}</button>
+                                                        >PLL Group {cells[cellNumber].pllName!==""?`(${cells[cellNumber].pllName})`:""}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
 
                                                                 <div style={{display:`${pllGroupClicked=="Group"?"grid":"none"}`}} className="LabsPLLGroupMenu">
@@ -1359,7 +1725,7 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                             
                                                                     }}
                                                                     >Group 1</button> */}
-                                                                    {(PllList).map((pll) => {
+                                                                    {(pllList).map((pll) => {
                                                                         if(pll==""){
                                                                             return <div></div>
                                                                         }
@@ -1435,9 +1801,9 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                         type="button"
                                                         data-bs-toggle="dropdown"
                                                         style={{borderTopLeftRadius:"6px",borderTopRightRadius:"6px"}}
-                                                        >Post-PLL AUF {`${cells[cellNumber].postPllAUFSetup!=""?`(${cells[cellNumber].postPllAUFSetup})` :""}`}</button>
+                                                        >Post-PLL AUF {`${cells[cellNumber].postPllAUFSetup!==""?`(${cells[cellNumber].postPllAUFSetup})` :""}`}</button>
                                                                 {/* <div className="dropdown-menu LabsOLLMenu"> */}
-                                                                {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")}
+                                                                {/* {console.log("GroupClicked",shortGroupTable,ollGroupClicked,ollGroupClicked=="Group")} */}
                                                                 {/* <div style={{display: lastSlotClicked ? "flex" : "none"}} className="flex-column"> */}
                                                                 <div style={{display: postPllAUFClicked ? "grid" : "none"}} className="LabsLastSlotGroupCont">
                                                                
@@ -1498,12 +1864,14 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                   </div>
                                     </div>
                                     {(specificOLLDB?.length>0 || !oll) && <BarPersevationOverlay
-                                    oll={""}
+                                    oll={tempOll}
                                     pll={alg}
-                                    permIndex={1}
-                                    cpEasyWanted={false}
-                                    cpSameOppWanted={!cpSameOpp}
-                                    barMovementWanted={false}
+                                    permIndex={newPermIndex}
+                                    // cpEasyWanted={false}
+                                    // cpSameOppWanted={!cpSameOpp}
+                                    // cpSameOppWanted={true}
+                                    barMovementWanted={cells[cellNumber].ollRec=="Bar Movement"}
+                                    cpWanted={cells[cellNumber].ollRec!="Bar Movement"?cells[cellNumber].ollRec!=""?cells[cellNumber].ollRec:false:false}
                                     cubeSize={cubeSize}
                                     setCubeSize={setCubeSize}
                                     cubeSizeFixed={true}
@@ -1516,11 +1884,12 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
     
 }
 
-export const defaultCellInfo = (cellNumber,hidden)=>{
+export const defaultCellInfo = (cellNumber,hidden,linkedHead)=>{
 
     let defaultInfo= {
         id: `cell-${cellNumber}`,
         cellNumber: cellNumber,
+        ollRec: "",
         ollRecSetting: "",
         lastSlotAlgSetup: "",
         preOllAUFSetup: "",
@@ -1529,6 +1898,7 @@ export const defaultCellInfo = (cellNumber,hidden)=>{
         prePllAUFSetup: "",
         pllName: "",
         pllAlgSetup:"",
+        pllPermIndex:0,
         postPllAUFSetup: "",
         lastSlotAlgSolve:"",
         ollAlgSolve:"",
@@ -1536,38 +1906,97 @@ export const defaultCellInfo = (cellNumber,hidden)=>{
         gridNumber: [],
         crossColor:"White",
         view:"plan",
-        hidden: hidden
+        hidden: hidden,
+        linkedHead:linkedHead
     }
     console.log("AddedHidden",defaultInfo,cellNumber,hidden)
     return defaultInfo
 }
 
-export function AddLabsCell({celltype,cellNumber,cells,setCells, linkedWith}){
+export function AddLabsCell({celltype,cellNumber,cells,setCells, linkedWith, setLinkedWith,unlinkable }){
 
 
     const { darkMode } = useContext(ThemeContext)
 
+    const lastSlotSetupLinkedDict={
+            "R U R'":[
+                "R U' R'","","U R U2 R'","U' R' F R F'","",""
+            ],
+            "L' U' L":[
+                "L' U L","","U' L' U2 L","U L F' L' F","",""
+            ],
+            "R U' R'":[
+                "R U R'","","R U' R' U' R U' R'","R U2 R' U R U2 R'","R U' R' U2 R' F R F'","R U2 R' U' R' F R F'"
+            ],
+            "L U L'":[
+                "L U L'","","","","",""
+            ],
+            "R U2 R'":[
+                "R U2 R'","","","","",""
+            ],
+            "L' U2 L":[
+                "L' U2 L","","","","",""
+            ],
+            "R' F R F'":[
+                "R' F R F'","","","","",""
+            ],
+            "L F' L' F":[
+                "L F' L' F","","","","",""
+            ],
+        }
+
     const handleAddClicked = (cellNumber)=>{
+
         
-        console.log("Added25",cellNumber,linkedWith)
+        console.log("Added25",celltype,linkedWith,cellNumber,linkedWith)
         setCells((prev)=>{
                 
                 let newCells=[...prev]
                 // console.log("Added35",newCells.length)
                 let k=newCells.length
                 while(cellNumber>newCells.length){
-                    newCells.push(defaultCellInfo(k,true))
+                    console.log("Added655")
+                    newCells.push(defaultCellInfo(k,true,false))
                     // console.log("Lengths",newCells,newCells.length)
                     k+=1
                 }
                 // console.log("Added40",cellNumber,newCells.length)
                 
-                if(linkedWith.length>0){
-                    console.log("Added755",newCells,linkedWith,linkedWith[0])
-                    newCells[cellNumber]={...newCells[linkedWith[0][0]],linkedHead:false, hidden:false}
+                if(linkedWith.length>0 && !unlinkable.includes(cellNumber)){
+                    console.log("Added755",newCells,linkedWith[0])
+                    newCells[cellNumber]={...newCells[linkedWith[0][0]], hidden:false}
                 }
                 else{
-                    newCells[cellNumber]=defaultCellInfo(cellNumber,false)
+                    if(celltype=="2Grid"){
+                        newCells[cellNumber]=defaultCellInfo(cellNumber,false,true)
+                    }
+                    else{
+                        
+                        newCells[cellNumber]={...prev[cellNumber],hidden:false}
+                        console.log("Added855",celltype,newCells,prev[cellNumber])
+                        // newCells[cellNumber]=defaultCellInfo(cellNumber,false,false)
+                        // if(celltype=="LastSlotGrid"){
+                        //     console.log("Added9555",linkedWith[0],cellNumber)
+                        //     let lastSlotIndex= linkedWith[0].findIndex(item=> item==cellNumber)
+                        //     console.log("Added9555",lastSlotIndex,linkedWith[0],cellNumber)
+                        //     console.log("Added9558",celltype,cells[cellNumber-lastSlotIndex])
+                        //     let lastSlotAlgSetup=cells[cellNumber-lastSlotIndex].lastSlotAlgSetup
+                        //     newCells[cellNumber].lastSlotAlgSetup=lastSlotAlgSetup
+                        //     newCells[cellNumber].lastSlotAlgSolve=lastSlotSetupLinkedDict[lastSlotAlgSetup][lastSlotIndex]
+                        // }
+                        // if(celltype=="OLL"){
+                        //     console.log("Added9555",linkedWith[0],cellNumber)
+                        //     let ollIndex= linkedWith[0].findIndex(item=> item==cellNumber)
+                        //     console.log("Added9555",ollIndex,linkedWith[0],cellNumber)
+                        //     console.log("Added9558",celltype,cells[cellNumber-ollIndex])
+                        //     let ollAlgSetupNumber=cells[cellNumber-ollIndex].ollAlgSetupNumber
+                        //     let ollAlgNumber=cells[cellNumber-ollIndex].ollAlgNumber
+                        //     newCells[cellNumber].ollAlgSetupNumber=ollAlgSetupNumber
+                        //     newCells[cellNumber].ollAlgNumber=ollAlgNumber
+                        //     newCells[cellNumber].lastSlotAlgSolve=lastSlotSetupLinkedDict[lastSlotAlgSetup][lastSlotIndex]
+                        // }
+                    }
+                   
                 }
                 
                 console.log("Added75",newCells[cellNumber],cellNumber)
@@ -1593,16 +2022,16 @@ export function AddLabsCell({celltype,cellNumber,cells,setCells, linkedWith}){
 
 export default LabsCell
 
-export function CombinedAddRemoveLabsCell({celltype,cellNumber,cells,setCells,cubeSize,setCubeSize,oll, unlinkable, linkedWith,LastSlotAlgs, shortGroupTable}){
+export function CombinedAddRemoveLabsCell({celltype,cellNumber,cells,setCells,cubeSize,setCubeSize,oll, unlinkable, linkedWith,setLinkedWith,LastSlotAlgs, shortGroupTable}){
 
     // console.log("Added65",cells,cellNumber,cells?.[cellNumber]?.hidden)
     return(
         <>
         {/* {console.log("Deleted3",cellNumber,cells?.[cellNumber]?.hidden)} */}
          {cells?.[cellNumber]?.hidden!=false &&
-                    <AddLabsCell celltype={celltype} cellNumber={cellNumber} cells={cells} setCells={setCells} linkedWith={linkedWith}></AddLabsCell>}
+                    <AddLabsCell celltype={celltype} cellNumber={cellNumber} cells={cells} setCells={setCells} linkedWith={linkedWith} setLinkedWith={setLinkedWith} unlinkable={unlinkable}></AddLabsCell>}
                     {cells?.[cellNumber]?.hidden==false &&
-                    <LabsCell celltype={celltype} cellNumber={cellNumber} cells={cells} setCells={setCells} cubeSize={cubeSize} setCubeSize={setCubeSize} unlinkable={unlinkable} linkedWith={linkedWith} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></LabsCell>}
+                    <LabsCell celltype={celltype} cellNumber={cellNumber} cells={cells} setCells={setCells} cubeSize={cubeSize} setCubeSize={setCubeSize} unlinkable={unlinkable} linkedWith={linkedWith} setLinkedWith={setLinkedWith} oll={oll} LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}></LabsCell>}
         </>         
     )
 }

@@ -23,15 +23,14 @@ import {useWindowWidthLogic,GetCentersPosition,addInformationToColorIndexList,ge
   CalculatePointsDistance, convert2CentersToCoordinates, Connect2Centers,getCirclePath,ArrowBarMovement} from "./pages/BarPersevationPage/BarPersevationLogic.jsx"
 import arrowsInfoGen from "./1OllArrowCpInfo"
 
-export function BarPersevationOverlay({oll,pll,permIndex,cpEasyWanted,cpSameOppWanted,barMovementWanted,cubeSize,setCubeSize,cubeSizeFixed, labsPageTrue,view}){
+export function BarPersevationOverlay({oll,pll,permIndex,cpWanted,cpEasyWanted,cpSameOppWanted,barMovementWanted,cubeSize,setCubeSize,cubeSizeFixed, labsPageTrue,view}){
  
-
-  //Todo: fix caseimage bug R3 and U4 by splitting such moves up in R2 R etc.
+  console.log("BarPersInfo",cpWanted,oll,pll,permIndex,cpEasyWanted,cpSameOppWanted,barMovementWanted,cubeSize,setCubeSize,cubeSizeFixed, labsPageTrue,view)
  
   let T_Perm="R U R' U' R' F R2 U' R' U' R U R' F'"
   let PermTable=[0,5,1,2,3,4]
   //let pllPreAUF=["","","U2","U","U'",""]
-  let pllPreAUF=["","","","","'",""]
+  let pllPreAUF=["","","","","",""]
 
   pll=pllPreAUF[PermTable[permIndex]]+pll
   //   let pllPreAUF=["","","U2"   ,"U","U'",""]
@@ -58,9 +57,10 @@ const noMovementCenterRef = useRef(
   Array.from({ length: 25 }, () => [false, false])  // 25 separate [false, false] arrays
 );
 
-if(!cubeSizeFixed){
-useWindowWidthLogic(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,cubeSize);
-}
+// if(!cubeSizeFixed){
+// useWindowWidthLogic(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,cubeSize);
+// }
+useWindowWidthLogic(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,cubeSize,cubeSizeFixed);
 
 const Scale=13.1/0.15740740740740744/150*cubeSize
 
@@ -963,7 +963,7 @@ return (
                       </>
                       )
                   }
-                  {oll&& arrowsInfoGen(oll,permIndex,cubeSize,cpEasyWanted,cpSameOppWanted).map((arrow, i) => (
+                  {oll&& arrowsInfoGen(oll,permIndex,cubeSize,cpWanted,cpEasyWanted,cpSameOppWanted).map((arrow, i) => (
                   <svg
                   key={i}
                   width="100%"
@@ -989,13 +989,11 @@ return (
 
   { oll && !labsPageTrue && (
     <>
-
-
                     <div className="RecCont"  ref={(el)=> setOverlayRef(el,0)}> 
                     
                     <CaseImage
                         size={cubeSize}
-                        alg={(oll.algs+pll).replace(/\s+/g, "")+" y2"}
+                        alg={(oll.algs+" "+pll).replace(/\s+/g, "")+" y2"}
                         caseSetDetails={ScrambleVisualizerDetails}
                         co="40"
                     ></CaseImage>
@@ -1107,7 +1105,7 @@ return (
                       </>
                       )
                   }
-                  {arrowsInfoGen(oll,permIndex,cubeSize,cpEasyWanted,cpSameOppWanted).map((arrow, i) => (
+                  {arrowsInfoGen(oll,permIndex,cubeSize,cpWanted,cpEasyWanted,cpSameOppWanted).map((arrow, i) => (
                   <svg
                   key={i}
                   width="100%"

@@ -324,7 +324,7 @@ export default function PllTrainerPage(){
 
     let scramble = "F L2 U2 L2 R2 B2 L2 U2 R2 F R2 F U L' F R2 B2 F2 R2 U' B D2 L"
     let oll = dbOllCaseSet?dbOllCaseSet[0]:""
-    console.log("Oll",oll)
+    console.log("OLL",oll)
     let j=0
 
     return <>
@@ -386,10 +386,12 @@ export default function PllTrainerPage(){
                             permIndex={0}
                             cpEasyWanted={false}
                             cpSameOppWanted={!cpSameOpp}
+                            cpWanted={"cpEasy"}
                             barMovementWanted={false}
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
                             cubeSizeFixed={true}
+                            view={"plan"}
                             />
                         }
                         </div>
@@ -413,10 +415,12 @@ export default function PllTrainerPage(){
                             permIndex={1}
                             cpEasyWanted={false}
                             cpSameOppWanted={!cpSameOpp}
+                            cpWanted={"cpEasy"}
                             barMovementWanted={false}
                             cubeSize={cubeSize}
                             setCubeSize={setCubeSize}
                             cubeSizeFixed={true}
+                            view={"plan"}
                             />
                         }
                         </div>

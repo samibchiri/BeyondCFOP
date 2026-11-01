@@ -18,17 +18,22 @@ import {ArrowDataGenerator} from "../../dataGeneration/ArrowDataGenerator.jsx"
 
 import { flushSync } from 'react-dom';
 
-export function useWindowWidthLogic(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,altoverlayRefs) {
+export function useWindowWidthLogic(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,altoverlayRefs,cubeSizeFixed) {
   
-  useEffect(() => {
-  const handleResize = () =>
+
+  const handleResize = () =>{
+
+    if(!cubeSizeFixed){
     resizeStates(setCubeSize, setStrokeWidth, setLineWidth, setRefsReady);
+    }
+  }
 
-
+  useEffect(() => {
     handleResize()
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-
+    
+  
   }, []);
 
   function resizeStates(setCubeSize,setStrokeWidth,setLineWidth,setRefsReady,cubeSize){

@@ -194,7 +194,7 @@ export default function MyAlgsPage() {
                                         <button onClick={() => { handleAlgCaseSetClicked(caseItem) }} className={`m-2 border btn-block btn ${darkMode ? "btn-dark" : "btn-primary"}`} style={buttonStyle}>
                                             <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
                                                 {
-                                                caseItem.title=="Oll"?
+                                                caseItem.title=="OLL"?
                                                 <div>
                                                     <CaseImage
                                                         size={80}

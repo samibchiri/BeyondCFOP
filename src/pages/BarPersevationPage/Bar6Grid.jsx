@@ -68,6 +68,7 @@ return (
                                         cubeSize={cubeSize}
                                         setCubeSize={setCubeSize}
                                         cubeSizeFixed={false}
+                                        view={"plan"}
                                         />
                                  {/* <CaseImage
                                      size={cubeSize}

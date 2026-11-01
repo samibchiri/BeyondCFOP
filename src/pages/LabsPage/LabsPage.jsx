@@ -120,7 +120,7 @@ export default function LabsPage(){
     const { xs } = useWindowDimensions();
     const cubeImageSize = xs ? "100" : "120";
 
-    const [cubeSize, setCubeSize] = useState(300);
+    const [cubeSize, setCubeSize] = useState(250);
     console.log("CuSize",cubeSize)
     const [openGroups, setOpenGroups] = useState({});
     const [selectedAlg, setSelectedAlg] = useState([])
@@ -162,6 +162,8 @@ export default function LabsPage(){
 
     // const [gridList,setGridList] = useState([["LastSlot",0],["2Grid",6],["PLL",8]])
 
+    // const [gridList,setGridList] = useState([["2Grid",0]])
+    
     const [gridList,setGridList] = useState([["2Grid",0]])
 
     const [customLinks,setCustomLinks] = useState([["LastSlot",[6,7]]])
@@ -210,6 +212,7 @@ export default function LabsPage(){
         let addCellsList= []
 
         for (let i=0;i<gridCellLength(type);i++){
+            console.log("LinkedWithOLLType",type,i)
             if(i==1 && type!="2Grid"){
                 addCellsList.push({...defaultCellInfo(maxCount+i,true),gridNumber:gridList.length})
             }
@@ -233,6 +236,9 @@ export default function LabsPage(){
             else if(i==0 && type=="PLL"){
                 addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,linkedHead:true})
             }
+            else if (type=="2Grid"){
+                addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length,linkedHead:true})
+            }
             else{
                 addCellsList.push({...defaultCellInfo(maxCount+i,false),gridNumber:gridList.length})
             }
@@ -245,20 +251,26 @@ export default function LabsPage(){
         return null
     }
 
-    const [unlinkable, setUnlinkable] = useState([unlinkableList])
+    const [unlinkable, setUnlinkable] = useState(unlinkableList)
+    const [linkedWith, setLinkedWith] = useState({
+        "LastSlot":[[],[]],
+        "OLL":[[],[]],
+        "PLL":[[],[]],
+    })
 
     const [cells, setCells] = useState(
         [
         {id: `cell-${0}`,
         cellNumber: 0,
-        ollRecSetting: "",
+        ollRec: "",
         lastSlotAlgSetup: "",
         preOllAUFSetup: "",
-        ollAlgSetupNumber: "",
-        ollAlgNumber:"",
+        ollAlgSetupNumber: 21,
+        ollAlgNumber:0,
         prePllAUFSetup: "",
-        pllAlgSetup: "R U R' F' R U R' U' R' F R2 U' R'",
+        pllAlgSetup: "",
         pllName:"",
+        pllPermIndex:0,
         postPllAUFSetup: "",
         lastSlotAlgSolve:"",
         ollAlgSolve:"",
@@ -267,11 +279,11 @@ export default function LabsPage(){
         crossColor:"White",
         view:"plan",
         hidden: false,
-        linkedHead:false},
+        linkedHead:true},
 
         {id: `cell-${1}`,
         cellNumber: 1,
-        ollRecSetting: "",
+        ollRec: "",
         lastSlotAlgSetup: "",
         preOllAUFSetup: "",
         ollAlgSetupNumber: "",
@@ -279,6 +291,7 @@ export default function LabsPage(){
         prePllAUFSetup: "",
         pllAlgSetup: "",
         pllName:"",
+        pllPermIndex:0,
         postPllAUFSetup: "",
         lastSlotAlgSolve:"",
         ollAlgSolve:"",
@@ -287,24 +300,28 @@ export default function LabsPage(){
         crossColor:"White",
         view:"plan",
         hidden: false,
-        linkedHead:false}
+        linkedHead:true}
     ]);
 
     let prevCount=0
     useEffect(()=>{
+        unlinkableList=[]
+        console.log("AddUnlinkable",unlinkable,unlinkableList,gridList)
         gridList.forEach((grid)=>{
         
         let startCountNumber= grid[1]
         if(grid[0]!="2Grid"){
-            while(prevCount<startCountNumber){
-            unlinkableList.push(prevCount)
+            prevCount=0
+            while(prevCount<6){
+                console.log("AddUnl3",prevCount,startCountNumber,unlinkableList)
+            unlinkableList.push(startCountNumber+prevCount)
             prevCount+=1
             }
         }
         prevCount=startCountNumber
-
-        setUnlinkable(unlinkableList)
     })
+    console.log("AddUnlinkableList2",unlinkableList)
+    setUnlinkable(unlinkableList)
 
     },[gridList])
     
@@ -374,7 +391,7 @@ export default function LabsPage(){
                     if(item[0]=="2Grid"){
                         return(
                             // <h2></h2>
-                            <Labs2CellGrid removeButton={()=>{removeButton(i)}} gridList={gridList} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} cubeSize={cubeSize} setCubeSize={setCubeSize}LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs2CellGrid>
+                            <Labs2CellGrid removeButton={()=>{removeButton(i)}} gridList={gridList} startCountNumber={item[1]} cells={cells} setCells={setCells} unlinkable={unlinkable} linkedWith={linkedWith} setLinkedWith={setLinkedWith} cubeSize={cubeSize} setCubeSize={setCubeSize}LastSlotAlgs={LastSlotAlgs} shortGroupTable={shortGroupTable}> </Labs2CellGrid>
                 
                         )
                     }

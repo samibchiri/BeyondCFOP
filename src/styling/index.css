@@ -1458,6 +1458,10 @@ table input.PopUpInputAlg:active {
   font-size: 0.8rem !important;
 }
 
+.HighlightLabsLastSlotButton{
+  background-color: #4d5154 !important ;
+}
+
 .LabsLastSlotInputCont {
   display: flex;
   align-items: center;
@@ -1588,13 +1592,13 @@ table input.PopUpInputAlg:active {
 .LabsCellNumberDropdownCont.dropdown-menu{
   position: absolute !important;
   top:-3px !important;
-  left:-83px !important;
+  left:-78px !important;
   padding: 10px !important;
   margin: 0 !important;
   background-color: black;
   min-width: 0 !important;
   width:max-content !important;
-  height:max-content;
+  height:max-content !important;
   background-color: #14171a;
   border: 2px solid #dee2e6;
   border-radius: 0px !important;
