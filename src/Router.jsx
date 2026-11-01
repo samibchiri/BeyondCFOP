@@ -65,5 +65,9 @@ export const router = createBrowserRouter([
       //                             ollId= "OLL 23-0"
       //                             /> 
     ],
+    
   },
-]);
+],
+{
+    basename: "/BeyondCFOP",
+  });
