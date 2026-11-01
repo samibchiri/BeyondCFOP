@@ -73,7 +73,7 @@ const selectedOll= useLiveQuery(async ()=>{
         const allOlls = await db.olls.toArray();
         
         // filter ignoring spaces
-        const matchingOlls = allOlls.filter(oll => 
+        let matchingOlls = allOlls.filter(oll => 
         correctAlgString(oll.algs)=== simplifiedOllAlg
         );
         if(!matchingOlls){

@@ -446,7 +446,6 @@ return (
                     size={cubeSize}
                     alg={(Inverse(newAlg)+AUF+oldAlg.algs).replace(/\s+/g, "")+" y2"}
                     caseSetDetails={ScrambleVisualizerDetails}
-                    caseSetDetails={ScrambleVisualizerDetails}
                     cubeOpacity={`${type=="f2l"?"40":"100"}`}
                 ></CaseImage>
 
