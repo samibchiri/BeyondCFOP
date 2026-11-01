@@ -74,7 +74,7 @@ export default function HomePage() {
     { label: "Bar Recognition", route: "/recognition/bar" },
     { label: "Bar Trainer", route: "/train/bar" },
     
-   { label: "Labs", route: "/labs" },
+   { label: "Cp Trainer", route: "/labs" },
    
     { label: "Pll Trainer", route: "/train/pll"},
 
