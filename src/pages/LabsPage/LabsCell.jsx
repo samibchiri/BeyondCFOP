@@ -1288,9 +1288,8 @@ export function LabsCell({celltype,cellNumber,cells,setCells,unlinkable,linkedWi
                                                       <li className='nav-item dropdown ms-ltr-5 list-unstyled'>
                                             
                                             
-                                            <button onClick={()=>setLastSlotClicked((prev)=>!prev)}className={`LabsCopyButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}
+                                            <button onClick={() => {setLastSlotClicked(prev => !prev);toggleDropDown(copyDropDownRef);}} className={`LabsCopyButton dropdown-toggle ${darkMode ? "btn-dark border-2 btn-back-dark" : "btn-secondary border-2 border-dark btn-back-light"} border border-2 btn `}
                                                  ref={copyDropDownRef}
-                                                onClick={()=>toggleDropDown(copyDropDownRef)}
                                                 id={`navbarDropdown-${cellNumber}`}
                                                 type="button"
                                                 data-bs-toggle="dropdown"
