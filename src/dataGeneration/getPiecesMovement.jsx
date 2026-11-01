@@ -34,7 +34,7 @@ import {sortOlls} from "../context/OllContext.jsx"
 
 import arrowOllSet from "../data/arrowOllSet copy.js"
 import { ThemeContext } from '../context/DarkThemeContext.jsx';
-import {useOll} from "../context/ollContext.jsx"
+import {useOll} from "../context/OllContext.jsx"
 
 import ShowAlgCard from "../pages/TrainSelectPage/cardPopUp.jsx";
 import Bar6Grid from "../pages/BarPersevationPage/Bar6Grid.jsx";

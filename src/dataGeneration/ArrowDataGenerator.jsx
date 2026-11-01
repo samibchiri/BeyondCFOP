@@ -11,7 +11,7 @@ import {piecesMovementGen}  from "../pages/BarPersevationPage/BarPersevationLogi
 import OllCaseFilter from "../components/Oll/OllCaseFilter.jsx";
 import OllGroupSelector from "../components/Oll/OllGroupSelect.jsx";
 
-import { sortOlls } from '../context/ollContext.jsx';
+import { sortOlls } from '../context/OllContext.jsx';
 import { useLiveQuery } from "dexie-react-hooks";
 
 //Function to invert the oll alg
