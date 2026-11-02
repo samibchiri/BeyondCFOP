@@ -1,5 +1,4 @@
-
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import AppLayout from './layout/AppLayout.jsx'
 import HomePage from "./pages/HomePage/HomePage.jsx";
 import AlgTrainerPage from "./pages/AlgTrainerPage/AlgTrainerPage.jsx"
@@ -22,7 +21,7 @@ import CheckAlgCorrect from "./pages/TrainSelectPage/CheckAlgCorrect.jsx";
 import { PllDataGenerator } from "./dataGeneration/PllDataGenerator.jsx";
 import { F2lDataGenerator } from "./dataGeneration/f2lDataGenerator.jsx";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: <AppLayout />, 
@@ -68,6 +67,4 @@ export const router = createBrowserRouter([
     
   },
 ],
-{
-    basename: "/BeyondCFOP",
-  });
+);
