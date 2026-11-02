@@ -158,7 +158,8 @@ const dbOllCaseSet = useLiveQuery(
             .toArray()
             .then(arr => arr.sort(sortOlls));
     },
-    [chosenAlg],
+    [],
+    // [chosenAlg],
     []
 );
 
@@ -269,10 +270,6 @@ useEffect(() => {
         }
            
     }, 200);
-
-    if(newAlg==null){
-                setScramble(currentalg.algs[currentAlgIndexRef] + CornerPermutations[scrambleIndex.current]);        
-        }
     
     let alg1=currentalg.algs[0]
     let alg2=currentalg.algs[1]
@@ -327,8 +324,8 @@ useEffect(() => {
     
     
 
-    
-}, [chosenAlg,dbOllCaseSet]);
+   }, [chosenAlg,dbOllCaseSet]); 
+// }, [chosenAlg,dbOllCaseSet]);
 
 //Whenever scramble changes, reset lists & read squares
 useEffect(() => {
@@ -401,7 +398,7 @@ useEffect(() => {
         
         if (chosenAlg !=null){
             currentalg["algs"]=[chosenAlg,oll.algs]
-            setScramble(currentalg.algs[currentAlgIndexRef] + CornerPermutations[scrambleIndex.current]);
+            // setScramble(currentalg.algs[currentAlgIndexRef] + CornerPermutations[scrambleIndex.current]);
             
         }
         else{

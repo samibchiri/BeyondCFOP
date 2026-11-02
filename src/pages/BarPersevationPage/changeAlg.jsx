@@ -10,7 +10,7 @@ return (
    <label htmlFor={`barchangeOllAlg-${refIndex}`}>Change alg:</label>
    </div>
    <div>
-   <input id={`barchangeOllAlg-${refIndex}`} className="barExcludeCentersInput" placeholder="Enter new alg, ex: R U R' U R U2 R'" onKeyDown={ (e)=>(changeOllAlgEnterPressed(e,oll))}></input>
+   <input id={`barchangeOllAlg-${refIndex}`} className="barExcludeCentersInput" placeholder="Enter new alg, ex: R U R' U R U2 R'" onKeyDown={ (e)=>(changeOllAlgEnterPressed(e,oll,setChangedAlgArray))}></input>
   <button className="barExcludeButtonSave" onClick={() => {
     const value = document.getElementById(`barchangeOllAlg-${refIndex}`).value;
     changeOllAlg(value, oll,setChangedAlgArray);
@@ -24,7 +24,7 @@ return (
 function changeOllAlgEnterPressed(e,oll,setChangedAlgArray){
   if(e.key=="Enter"){
       e.preventDefault()
-      changeOllAlg(e.target.value,oll)
+      changeOllAlg(e.target.value,oll,setChangedAlgArray)
       console.log("EnterPressed")
       e.target.value = "";
   }

@@ -486,6 +486,27 @@ useEffect(() => {
 
     return (
         <>
+        {(changedAlgArray.length>0 &&changedAlgArray[0] && changedAlgArray[1]!=null &&changedAlgArray[2]==true && changedAlgArray[0]!=changedAlgArray[1])  
+                    && (<>
+                    {console.log("NewPage")}
+                        <ArrowDataGenerator
+                        key={`${changedAlgArray[0]}-${changedAlgArray[1]?.id ?? ""}-${changedAlgArray[1]?.algNumber ?? ""}`}
+                            newAlg={changedAlgArray[0]}
+                            tempoll={changedAlgArray[1]}
+                            onError={(errorMessage) => {
+                            console.warn("CornerPermutation error:", errorMessage);
+                
+                            setChangedAlgArray([changedAlgArray[1], changedAlgArray[1], false,changedAlgArray[3]]);
+                          
+                        }}
+                        onSuccess={() => {
+                            
+                            setChangedAlgArray([changedAlgArray[0], changedAlgArray[1], false,changedAlgArray[3]]);
+                        }}
+                        />
+                        </>
+                        
+                        )}
         {groupSelected == null && (
             <OllGroupSelector
                 arrowOllSet={arrowOllSet}
@@ -727,27 +748,6 @@ useEffect(() => {
                             </div>
 
                 <ChangeOllCont refIndex={i} oll={oll} setChangedAlgArray={setChangedAlgArray}/>
-                {(changedAlgArray.length>0 &&changedAlgArray[0] && changedAlgArray[1]!=null &&changedAlgArray[2]==true && changedAlgArray[0]!=changedAlgArray[1])  
-                    && (<>
-                    {console.log("NewPage")}
-                        <ArrowDataGenerator
-                            key={`${changedAlgArray[0]}-${changedAlgArray[1]}`}
-                            newAlg={changedAlgArray[0]}
-                            tempoll={changedAlgArray[1]}
-                            onError={(errorMessage) => {
-                            console.warn("CornerPermutation error:", errorMessage);
-                
-                            setChangedAlgArray([changedAlgArray[1], changedAlgArray[1], false,changedAlgArray[3]]);
-                          
-                        }}
-                        onSuccess={() => {
-                            
-                            setChangedAlgArray([changedAlgArray[0], changedAlgArray[1], false,changedAlgArray[3]]);
-                        }}
-                        />
-                        </>
-                        
-                        )}
                         </div>
                 </>
                 )
@@ -758,7 +758,7 @@ useEffect(() => {
             }
 
             
-        
+    
     {showPopUpCard.length > 0 && <ShowBarFullHint sixGridWanted={true} alg={showPopUpCard[0]} cubeSize={150} setCubeSize={setCubeSize} onClose={() => setShowPopUpCard([])} algCasesSet={algCasesSet} />}
   
                     
