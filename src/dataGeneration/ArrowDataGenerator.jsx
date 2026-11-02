@@ -128,7 +128,7 @@ const [chosenAlg,setChosenAlg]= useState(null)
 
 const [oll, setOll] = useState(tempoll);
 
-console.log("StartArrowDataGen",newAlg,oll)
+console.log("StartArrowDataGen",newAlg,oll,chosenAlg)
 
 
 const [altscramble,setAltScramble] = useState(Array(4).fill("null"));
@@ -377,7 +377,7 @@ useEffect(() => {
     if(currentAlgIndexRef==0){
         setBarMovements([["Full"],["Back"],["Front"],["Left"],["Right"],["Diag"]])
     }
-  },200);
+  },2000);
 
   return () => clearTimeout(timeout);
 }, [scramble]);
@@ -529,6 +529,7 @@ function arrowCombinationSort(){
 
 
 function EasyRecognition(){
+    console.log("RunEasyRec")
 
     let PossibleCombination=[]
     let AllCombination=[]
@@ -694,7 +695,7 @@ function EasyRecognition(){
 
     const groupdictToSave= groupdict
     
-    console.log("TOSave",altAUFToSave.current,AUFToSave.current)
+    console.log("TOSave",chosenAlg,jsonArrowsToExport,altAUFToSave.current,AUFToSave.current)
 
     if(chosenAlg){
         setJsonArrowsToExport(prev=>
@@ -1529,7 +1530,7 @@ useEffect(() => {
         if(dbOllCaseSet.length>1 && dbOllCaseSet[1].algs!=""){
             console.log("NewChosenAlg",checkedAlgNumber,dbOllCaseSet[checkedAlgNumber])
             setOll(dbOllCaseSet[checkedAlgNumber])
-            console.log("NewOll",dbOllCaseSet[checkedAlgNumber])
+            console.log("NewOll",dbOllCaseSet[checkedAlgNumber].algs)
             setChosenAlg(dbOllCaseSet[checkedAlgNumber].algs)
         }
         else{

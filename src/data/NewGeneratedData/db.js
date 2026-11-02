@@ -85,7 +85,7 @@ export async function seedDatabaseIfEmpty() {
   try {
     const count = await db.olls.count();
     console.log("Seeding",arrowOllSet)
-    if (count===0) { //Change to ===0 later
+    if (count>=0) { //Change to ===0 later
       await db.olls.clear();
       console.log("Seeding IndexedDB with default OLLs...");
       await db.olls.bulkPut(arrowOllSet);

@@ -741,7 +741,7 @@ useEffect(() => {
                           
                         }}
                         onSuccess={() => {
-                            console.log("Succes")
+                            
                             setChangedAlgArray([changedAlgArray[0], changedAlgArray[1], false,changedAlgArray[3]]);
                         }}
                         />
