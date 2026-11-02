@@ -89,7 +89,7 @@ function ShowCpFullHint({alg,cubeSize, setCubeSize, onClose,algCasesSet}){
         setTimeout(() => {
             //handleSwapClicked.current=false
             setHandleSwapClicked(false)
-        }, 2000);
+        }, 200);
         if(!changedAlgArray[2]){
             if (LastAlg1?.algs && editedAlg1.length==editedAlg2.length && LastAlg2?.algs) {
                 console.log("edited1Here?3")
@@ -269,7 +269,7 @@ function ShowCpFullHint({alg,cubeSize, setCubeSize, onClose,algCasesSet}){
         setTimeout(() => {
             //handleSwapClicked.current=false
             setHandleSwapClicked(false)
-        }, 2000);
+        }, 200);
         
         if(!changedAlgArray[2]&& !handleSwapClicked){
             // await db.olls.update(AlgVersions[0].id,editedAlg1[editedAlg1.length-2]);

@@ -157,7 +157,7 @@ console.log("AlgVersions2 =", AlgVersions);
         setTimeout(() => {
             //handleSwapClicked.current=false
             setHandleSwapClicked(false)
-        }, 2000);
+        }, 200);
         if(changedAlgArray[2]==false){
             if (LastAlg1?.algs && editedAlg1.length==editedAlg2.length && LastAlg2?.algs) {
                 console.log("edited1Here?3")
@@ -374,7 +374,7 @@ console.log("AlgVersions2 =", AlgVersions);
         setTimeout(() => {
             //handleSwapClicked.current=false
             setHandleSwapClicked(false)
-        }, 2000);
+        }, 200);
         // if(editedAlg1.length > 1 || editedAlg2.length > 1){
         //      console.log("Exist Prev",editedAlg1,editedAlg2,editedAlg1.length,editedAlg2.length)
         //     setExistPrevAlg(true)
